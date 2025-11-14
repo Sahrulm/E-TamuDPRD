@@ -176,7 +176,7 @@
             <span class="inline-flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path d="M8 5.25a3.25 3.25 0 100 6.5 3.25 3.25 0 000-6.5zM1.75 16a6.25 6.25 0 0112.5 0v1.25h-12.5V16z"/>
-                <path d="M15.5 4.75a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zM18 17.25V16a3.5 3.5 0 00-5.67-2.82 7.47 7.47 0 012.92 4.07H18z"/>
+                <path d="M15.5 4.75a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zM18 17.25V16a3.5 3.5 0 00-5.67-2.82 a7.47 7.47 0 012.92 4.07H18z"/>
               </svg>
               Data Pengajuan
             </span>
@@ -394,12 +394,12 @@
                   Terima
                 </button>
               </form>
-              <form method="POST" action="{{ route('host.kunjungan.tolak', $id) }}" class="inline w-full sm:w-auto">
-                @csrf
-                <button type="submit" class="ripple w-full sm:w-auto inline-flex items-center justify-center rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 px-4 py-2 font-semibold text-slate-700 active:scale-[.99] focus:outline-none focus:ring-2 focus:ring-amber-300/80">
-                  Tolak
-                </button>
-              </form>
+              <button type="button" 
+                      class="btn-tolak ripple w-full sm:w-auto inline-flex items-center justify-center rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 px-4 py-2 font-semibold text-slate-700 active:scale-[.99] focus:outline-none focus:ring-2 focus:ring-amber-300/80"
+                      data-id="{{ $id }}"
+                      data-nama="{{ $nama }}">
+                Tolak
+              </button>
             </div>
           </article>
         @empty
@@ -525,12 +525,12 @@
                       Terima
                     </button>
                   </form>
-                  <form method="POST" action="{{ route('host.kunjungan.tolak', $id) }}">
-                    @csrf
-                    <button type="submit" class="ripple w-full inline-flex items-center justify-center rounded-lg bg-white hover:bg-amber-100 border border-amber-200 px-3 py-2 text-slate-700 font-semibold active:scale-[.99] focus:outline-none focus:ring-2 focus:ring-amber-300/80">
-                      Tolak
-                    </button>
-                  </form>
+                  <button type="button" 
+                          class="btn-tolak ripple w-full inline-flex items-center justify-center rounded-lg bg-white hover:bg-amber-100 border border-amber-200 px-3 py-2 text-slate-700 font-semibold active:scale-[.99] focus:outline-none focus:ring-2 focus:ring-amber-300/80"
+                          data-id="{{ $id }}"
+                          data-nama="{{ $namaTamu }}">
+                    Tolak
+                  </button>
                 @else
                   <div class="col-span-2 text-center text-slate-400 text-sm">—</div>
                 @endif
@@ -605,12 +605,12 @@
                               Terima
                             </button>
                           </form>
-                          <form method="POST" action="{{ route('host.kunjungan.tolak', $id) }}" class="inline">
-                            @csrf
-                            <button type="submit" class="ripple inline-flex items-center justify-center rounded-lg bg-white hover:bg-amber-100 border border-amber-200 px-3 py-1.5 text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-amber-300/80 text-xs">
-                              Tolak
-                            </button>
-                          </form>
+                          <button type="button" 
+                                  class="btn-tolak ripple inline-flex items-center justify-center rounded-lg bg-white hover:bg-amber-100 border border-amber-200 px-3 py-1.5 text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-amber-300/80 text-xs"
+                                  data-id="{{ $id }}"
+                                  data-nama="{{ $namaTamu }}">
+                            Tolak
+                          </button>
                         @else
                           <span class="text-slate-400 text-xs">—</span>
                         @endif
@@ -660,6 +660,38 @@
       </div>
     </section>
   </main>
+
+  <!-- MODAL TOLAK dengan input alasan -->
+  <div id="modal-tolak" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden place-items-center p-4" role="dialog" aria-hidden="true">
+    <div class="w-full max-w-md bg-white rounded-2xl p-6 shadow-2xl animate-scaleIn border border-amber-100">
+      <div class="flex items-start justify-between">
+        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+          <span class="inline-flex h-7 w-7 items-center justify-center rounded-xl bg-rose-500 text-white text-xs font-bold">!</span>
+          Tolak Pengajuan
+        </h3>
+        <button type="button" id="modalTolakClose" class="ripple rounded-lg px-2 py-1 text-slate-500 hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-amber-200">
+          ✕
+        </button>
+      </div>
+
+      <form id="formTolak" method="POST" action="">
+        @csrf
+        <div class="mt-4">
+          <label for="alasan" class="block text-sm font-medium text-slate-700 mb-1">Alasan Penolakan</label>
+          <textarea id="alasan" name="alasan" rows="3" class="w-full px-3 py-2 border border-amber-200 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500" placeholder="Masukkan alasan penolakan..." required></textarea>
+        </div>
+
+        <div class="mt-6 flex flex-wrap justify-end gap-2">
+          <button type="button" id="modalTolakClose2" class="ripple rounded-xl border border-slate-300 px-4 py-2 font-semibold text-slate-700 hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-amber-200">
+            Batal
+          </button>
+          <button type="submit" class="ripple rounded-xl bg-rose-600 px-4 py-2 font-semibold text-white focus:outline-none focus:ring-2 focus:ring-rose-500">
+            Tolak Pengajuan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- MODAL DETAIL (opsional) -->
   <div id="detail" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden place-items-center p-4" role="dialog" aria-hidden="true">
@@ -797,6 +829,62 @@
     window.addEventListener('hashchange', () => initTab());
     initTab();
 
+    // Modal tolak dengan alasan
+    const modalTolak = document.getElementById('modal-tolak');
+    const formTolak = document.getElementById('formTolak');
+    const alasanInput = document.getElementById('alasan');
+    const modalTolakClose = document.getElementById('modalTolakClose');
+    const modalTolakClose2 = document.getElementById('modalTolakClose2');
+
+    function openModalTolak(id, nama) {
+      if (!modalTolak || !formTolak) return;
+      
+      // Set action form dengan ID yang benar
+      formTolak.action = `/host/kunjungan/${id}/tolak`;
+      
+      // Reset dan fokus ke textarea
+      if (alasanInput) {
+        alasanInput.value = '';
+        alasanInput.focus();
+      }
+      
+      // Tampilkan modal
+      modalTolak.classList.remove('hidden');
+      modalTolak.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeModalTolak() {
+      if (!modalTolak) return;
+      modalTolak.classList.add('hidden');
+      modalTolak.setAttribute('aria-hidden', 'true');
+    }
+
+    // Event listener untuk tombol tolak
+    document.addEventListener('click', function(e) {
+      const btnTolak = e.target.closest('.btn-tolak');
+      if (btnTolak) {
+        const id = btnTolak.dataset.id;
+        const nama = btnTolak.dataset.nama;
+        if (id) {
+          openModalTolak(id, nama);
+        }
+      }
+    });
+
+    // Event listener untuk menutup modal tolak
+    if (modalTolakClose) modalTolakClose.addEventListener('click', closeModalTolak);
+    if (modalTolakClose2) modalTolakClose2.addEventListener('click', closeModalTolak);
+    if (modalTolak) {
+      modalTolak.addEventListener('click', function(e) {
+        if (e.target === modalTolak) closeModalTolak();
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !modalTolak.classList.contains('hidden')) {
+          closeModalTolak();
+        }
+      });
+    }
+
     // Modal detail (opsional)
     const modal  = document.getElementById('detail');
     const close1 = document.getElementById('detailClose');
@@ -827,17 +915,6 @@
       modal.addEventListener('click', (e)=>{ if(e.target === modal) closeDetail(); });
       document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && !modal.classList.contains('hidden')) closeDetail(); });
     }
-    document.addEventListener('click', (e)=>{
-      const btn = e.target.closest('.btn-detail');
-      if(!btn) return;
-      openDetail({
-        nama: btn.dataset.nama,
-        hp: btn.dataset.hp,
-        instansi: btn.dataset.instansi,
-        bertemu: btn.dataset.bertemu,
-        keperluan: btn.dataset.keperluan,
-      });
-    });
   </script>
 </body>
 </html>
