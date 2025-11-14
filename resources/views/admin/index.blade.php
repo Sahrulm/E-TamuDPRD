@@ -22,30 +22,36 @@
           colors: {
             brand: {
               50:'#FFF9EC', 100:'#FFF3D6', 200:'#FFE6AD', 300:'#FFD973',
-              400:'#FFCA3A', 500:'#FFB300', 600:'#E6A100', 700:'#B37D00'
+              400:'#FFCA3A', 500:'#FFB300', 600:'#E6A100', 700:'#B37D00',
+              800:'#805C00', 900:'#4D3800'
             },
             night: { 900:'#0B1220', 800:'#0F1930' }
           },
           boxShadow: {
             soft: '0 10px 30px -12px rgba(0,0,0,.12)',
-            lift: '0 18px 40px -20px rgba(0,0,0,.25)'
+            lift: '0 18px 40px -20px rgba(0,0,0,.25)',
+            'yellow-glow': '0 0 20px rgba(255, 179, 0, 0.3)'
           },
           backgroundImage: {
-            'yellow-noise': "radial-gradient(1200px 600px at -10% -20%, rgba(255, 227, 140, .35), transparent 60%), radial-gradient(800px 500px at 110% 120%, rgba(255, 214, 102, .28), transparent 60%)"
+            'yellow-noise': "radial-gradient(1200px 600px at -10% -20%, rgba(255, 227, 140, .35), transparent 60%), radial-gradient(800px 500px at 110% 120%, rgba(255, 214, 102, .28), transparent 60%)",
+            'yellow-gradient': 'linear-gradient(135deg, #FFB300 0%, #FFCA3A 100%)',
+            'gold-gradient': 'linear-gradient(135deg, #FFB300 0%, #E6A100 100%)'
           },
           keyframes: {
             fadeUp:   { '0%': { opacity:0, transform:'translateY(12px)'}, '100%': { opacity:1, transform:'translateY(0)'} },
             scaleIn:  { '0%': { opacity:0, transform:'scale(.96)'},      '100%': { opacity:1, transform:'scale(1)'} },
             pulseSoft:{ '0%,100%': { transform:'scale(1)'}, '50%': { transform:'scale(1.05)' } },
             floaty:   { '0%,100%': { transform:'translateY(0)'}, '50%': { transform:'translateY(-6px)' } },
-            shimmer:  { '0%': { backgroundPosition:'-200% 0' }, '100%': { backgroundPosition:'200% 0' } }
+            shimmer:  { '0%': { backgroundPosition:'-200% 0' }, '100%': { backgroundPosition:'200% 0' } },
+            bounceIn: { '0%': { opacity:0, transform:'scale(0.3)' }, '50%': { opacity:1, transform:'scale(1.05)' }, '70%': { transform:'scale(0.9)' }, '100%': { opacity:1, transform:'scale(1)' } }
           },
           animation: {
             fadeUp:'fadeUp .45s ease-out both',
             scaleIn:'scaleIn .28s ease-out both',
             pulseSoft:'pulseSoft 2s ease-in-out infinite',
             floaty:'floaty 6s ease-in-out infinite',
-            shimmer:'shimmer 2.5s linear infinite'
+            shimmer:'shimmer 2.5s linear infinite',
+            bounceIn:'bounceIn 0.6s ease-out both'
           }
         }
       }
@@ -66,6 +72,19 @@
       background: linear-gradient(90deg, rgba(255, 227, 140, .25), rgba(255, 227, 140, .55), rgba(255, 227, 140, .25));
       background-size: 200% 100%;
     }
+    .yellow-glow {
+      box-shadow: 0 0 20px rgba(255, 179, 0, 0.4);
+    }
+    @media (max-width: 768px) {
+      .mobile-card {
+        padding: 1rem;
+      }
+      .mobile-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen overflow-y-scroll antialiased text-slate-800 bg-brand-50 bg-yellow-noise selection:bg-brand-200/60">
@@ -77,8 +96,8 @@
 
   <!-- ================= FIXED SIDEBAR (LEFT) ================= -->
   <aside class="hidden md:flex fixed left-0 top-0 h-screen w-72 z-40">
-    <div class="w-full h-full rounded-none border-r border-brand-100/70 bg-gradient-to-b from-brand-50 via-brand-100/90 to-brand-50 backdrop-blur-sm shadow-soft p-4 flex flex-col">
-      <div class="flex items-center gap-3 mb-4">
+    <div class="w-full h-full rounded-none border-r border-brand-200 bg-gradient-to-b from-brand-100 via-brand-50 to-brand-100 backdrop-blur-sm shadow-soft p-4 flex flex-col">
+      <div class="flex items-center gap-3 mb-4 p-2 rounded-xl bg-yellow-gradient shadow-yellow-glow">
         <img
           src="/img/logoDprd.png"
           alt="Logo DPRD"
@@ -90,21 +109,21 @@
         </div>
       </div>
       <nav class="space-y-1">
-        <button @click="active='dashboard'" :class="active==='dashboard' ? 'bg-brand-200/80 text-brand-800 ring-1 ring-brand-300' : 'hover:bg-brand-50/70 hover:text-brand-800'"
+        <button @click="active='dashboard'" :class="active==='dashboard' ? 'bg-brand-500 text-white shadow-yellow-glow' : 'hover:bg-brand-100/70 hover:text-brand-800'"
                 class="w-full text-left px-3 py-2 rounded-xl transition">
           <span class="inline-flex items-center gap-2">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M3 12l9-9 9 9v8a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-8z"/></svg>
             Dashboard
           </span>
         </button>
-        <button @click="active='users'" :class="active==='users' ? 'bg-brand-200/80 text-brand-800 ring-1 ring-brand-300' : 'hover:bg-brand-50/70 hover:text-brand-800'"
+        <button @click="active='users'" :class="active==='users' ? 'bg-brand-500 text-white shadow-yellow-glow' : 'hover:bg-brand-100/70 hover:text-brand-800'"
                 class="w-full text-left px-3 py-2 rounded-xl transition">
           <span class="inline-flex items-center gap-2">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm7 9a1 1 0 01-1 1H6a1 1 0 01-1-1 7 7 0 0114 0z"/></svg>
             Kelola Pengguna
           </span>
         </button>
-        <button @click="active='tamu'" :class="active==='tamu' ? 'bg-brand-200/80 text-brand-800 ring-1 ring-brand-300' : 'hover:bg-brand-50/70 hover:text-brand-800'"
+        <button @click="active='tamu'" :class="active==='tamu' ? 'bg-brand-500 text-white shadow-yellow-glow' : 'hover:bg-brand-100/70 hover:text-brand-800'"
                 class="w-full text-left px-3 py-2 rounded-xl transition">
           <span class="inline-flex items-center gap-2">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zM8 11c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19a1 1 0 001 1h10v-2.5C12 14.17 6.33 13 4 13zm8 6h6a1 1 0 001-1v-1.5c0-2.33-4.67-3.5-7-3.5-1.05 0-2.04.12-2.93.33A6.51 6.51 0 0116 19z"/></svg>
@@ -125,15 +144,15 @@
   </aside>
 
   <!-- ================= NAVBAR (TOP) ================= -->
-  <header id="topbar" class="fixed inset-x-0 top-0 z-30 bg-brand-50/80 backdrop-blur-md transition-all md:pl-72">
+  <header id="topbar" class="fixed inset-x-0 top-0 z-30 bg-brand-100/80 backdrop-blur-md transition-all md:pl-72">
     <div class="px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between md:justify-end py-3">
         <div class="flex items-center gap-3 md:hidden">
-          <button class="-ml-2 p-2 rounded-lg hover:bg-brand-100/70" @click="sidebarOpen=true" aria-label="Open sidebar">
+          <button class="-ml-2 p-2 rounded-lg hover:bg-brand-200/70" @click="sidebarOpen=true" aria-label="Open sidebar">
             <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
           </button>
           <a href="#" class="flex items-center gap-3" @click.prevent="scrollTo({top:0,behavior:'smooth'})">
-            <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-400 text-white font-bold">
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-yellow-gradient text-white font-bold shadow-yellow-glow">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 4.9L19 9l-5.2 2.1L12 16l-1.8-4.9L5 9l5.2-2.1L12 2z"/></svg>
             </span>
             <div class="leading-tight">
@@ -152,8 +171,8 @@
 
           <!-- User dropdown -->
           <div class="relative" x-data="{open:false}" @keydown.escape.window="open=false">
-            <button class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-brand-100/80" @click="open=!open" :aria-expanded="open">
-              <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-200 text-brand-800 ring-1 ring-brand-300">
+            <button class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-brand-200/80" @click="open=!open" :aria-expanded="open">
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-yellow-gradient text-white ring-1 ring-brand-300 shadow-yellow-glow">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.761 0 5-2.462 5-5.5S14.761 1 12 1 7 3.462 7 6.5 9.239 12 12 12zm0 2c-3.866 0-7 2.582-7 5.769V22h14v-2.231C19 16.582 15.866 14 12 14z"/></svg>
               </span>
               <span class="text-sm hidden sm:inline text-slate-800">Admin</span>
@@ -161,7 +180,7 @@
             </button>
 
             <div x-cloak x-show="open" x-transition.origin.top.right @click.outside="open=false"
-                 class="absolute right-0 mt-2 w-52 rounded-xl border border-slate-200 bg-[#FFFDF5] shadow-lg overflow-hidden">
+                 class="absolute right-0 mt-2 w-52 rounded-xl border border-brand-200 bg-[#FFFDF5] shadow-lg overflow-hidden">
               <div class="py-1">
                 <button type="button" class="w-full text-left px-4 py-2 text-sm hover:bg-brand-50/80 flex items-center gap-2" @click="open=false; showLogout=true">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-rose-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 4.5A1.5 1.5 0 014.5 3h5A1.5 1.5 0 0111 4.5v1a.5.5 0 01-1 0v-1a.5.5 0 00-.5-.5h-5a.5.5 0 00-.5.5v11a.5.5 0 00.5.5h5a2 2 0 002-2v-1a.5.5 0 011 0v1A1.5 1.5 0 019.5 17h-5A1.5 1.5 0 013 15.5v-11z" clip-rule="evenodd"/><path d="M13.854 10.354a.5.5 0 010-.708l2-2a.5.5 0 11.707.708L15.707 9.5H8.5a.5.5 0 010-1h7.207l.854-.854a.5.5 0 11.707.707l-2 2a.5.5 0 01-.707 0z"/></svg>
@@ -184,17 +203,17 @@
         <!-- Mobile Sidebar Drawer -->
         <div class="md:hidden fixed inset-0 z-50" x-cloak x-show="sidebarOpen" x-transition.opacity aria-hidden="true">
           <div class="absolute inset-0 bg-black/40" @click="sidebarOpen=false"></div>
-          <aside class="absolute left-0 top-0 h-full w-72 bg-gradient-to-b from-brand-50 via-brand-100/90 to-brand-50 p-4 shadow-2xl" x-transition>
+          <aside class="absolute left-0 top-0 h-full w-72 bg-gradient-to-b from-brand-100 via-brand-50 to-brand-100 p-4 shadow-2xl" x-transition>
             <div class="flex items-center justify-between mb-3">
               <div class="font-bold text-slate-900">Menu</div>
-              <button class="p-2 rounded-lg hover:bg-brand-100/80" @click="sidebarOpen=false">✕</button>
+              <button class="p-2 rounded-lg hover:bg-brand-200/80" @click="sidebarOpen=false">✕</button>
             </div>
             <nav class="space-y-1">
-              <button @click="active='dashboard'; sidebarOpen=false" :class="active==='dashboard' ? 'bg-brand-200/80 text-brand-800 ring-1 ring-brand-300' : 'hover:bg-brand-50/70 hover:text-brand-800'"
+              <button @click="active='dashboard'; sidebarOpen=false" :class="active==='dashboard' ? 'bg-brand-500 text-white shadow-yellow-glow' : 'hover:bg-brand-100/70 hover:text-brand-800'"
                       class="w-full text-left px-3 py-2 rounded-xl transition">Dashboard</button>
-              <button @click="active='users'; sidebarOpen=false" :class="active==='users' ? 'bg-brand-200/80 text-brand-800 ring-1 ring-brand-300' : 'hover:bg-brand-50/70 hover:text-brand-800'"
+              <button @click="active='users'; sidebarOpen=false" :class="active==='users' ? 'bg-brand-500 text-white shadow-yellow-glow' : 'hover:bg-brand-100/70 hover:text-brand-800'"
                       class="w-full text-left px-3 py-2 rounded-xl transition">Kelola Pengguna</button>
-              <button @click="active='tamu'; sidebarOpen=false" :class="active==='tamu' ? 'bg-brand-200/80 text-brand-800 ring-1 ring-brand-300' : 'hover:bg-brand-50/70 hover:text-brand-800'"
+              <button @click="active='tamu'; sidebarOpen=false" :class="active==='tamu' ? 'bg-brand-500 text-white shadow-yellow-glow' : 'hover:bg-brand-100/70 hover:text-brand-800'"
                       class="w-full text-left px-3 py-2 rounded-xl transition">Kelola Tamu</button>
             </nav>
             <div class="mt-6">
@@ -210,9 +229,9 @@
         <main class="flex-1 w-full space-y-8">
 
           <!-- HERO -->
-          <section class="pt-2 pb-2 rounded-2xl border border-brand-100/80 relative overflow-hidden animate-fadeUp bg-gradient-to-br from-brand-50/90 via-[#FFFDF5] to-brand-100/80 shadow-soft">
-            <div class="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full border border-brand-200/60 animate-floaty"></div>
-            <div class="pointer-events-none absolute -right-20 -bottom-24 h-80 w-80 rounded-full border-4 border-brand-100/70 animate-floaty" style="animation-delay:.8s"></div>
+          <section class="pt-2 pb-2 rounded-2xl border border-brand-200 relative overflow-hidden animate-fadeUp bg-gradient-to-br from-brand-100 via-[#FFFDF5] to-brand-100 shadow-soft">
+            <div class="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full border border-brand-300/60 animate-floaty"></div>
+            <div class="pointer-events-none absolute -right-20 -bottom-24 h-80 w-80 rounded-full border-4 border-brand-200/70 animate-floaty" style="animation-delay:.8s"></div>
             <div class="absolute inset-x-0 top-0 h-1 shimmer animate-shimmer"></div>
             <div class="px-5 py-5">
               <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 flex items-center gap-2">
@@ -225,7 +244,7 @@
 
           <!-- ========= DASHBOARD ========= -->
           <section x-cloak x-show="active==='dashboard'" x-transition>
-            <div class="rounded-2xl border border-brand-100/80 bg-brand-50/80 backdrop-blur p-5 shadow-soft space-y-6">
+            <div class="rounded-2xl border border-brand-200 bg-brand-50/80 backdrop-blur p-5 shadow-soft space-y-6">
               <!-- Toolbar kecil: rentang hari -->
               <div class="flex flex-wrap items-center gap-3 justify-between">
                 <h2 class="text-lg font-bold flex items-center gap-2 text-slate-900">
@@ -236,7 +255,7 @@
                   <label class="text-sm text-slate-700">Rentang:</label>
                   <select x-model.number="dashboardRange"
                           @change="refreshChart()"
-                          class="rounded-xl border border-brand-200 px-3 py-2 text-sm bg-[#FFFDF5] focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
+                          class="rounded-xl border border-brand-300 px-3 py-2 text-sm bg-[#FFFDF5] focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
                     <option :value="7">7 hari</option>
                     <option :value="14">14 hari</option>
                     <option :value="30">30 hari</option>
@@ -245,23 +264,43 @@
               </div>
 
               <!-- Kartu Metrik -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="rounded-2xl border border-brand-100 bg-[#FFF9EC] p-5 shadow-sm">
-                  <div class="text-sm text-slate-700">Total Tamu (unik)</div>
-                  <div class="mt-1 text-3xl font-extrabold text-slate-900" x-text="metrics.totalTamu"></div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="rounded-2xl border border-brand-300 bg-yellow-gradient p-5 shadow-yellow-glow text-white">
+                  <div class="text-sm font-medium">Total Tamu</div>
+                  <div class="mt-1 text-3xl font-extrabold" x-text="metrics.totalTamu"></div>
+                  <div class="mt-2 text-xs flex items-center gap-1">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zM8 11c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19a1 1 0 001 1h10v-2.5C12 14.17 6.33 13 4 13zm8 6h6a1 1 0 001-1v-1.5c0-2.33-4.67-3.5-7-3.5-1.05 0-2.04.12-2.93.33A6.51 6.51 0 0116 19z"/></svg>
+                    <span>Jumlah tamu</span>
+                  </div>
                 </div>
-                <div class="rounded-2xl border border-brand-100 bg-[#FFF9EC] p-5 shadow-sm">
-                  <div class="text-sm text-slate-700">Total Tamu Selesai</div>
-                  <div class="mt-1 text-3xl font-extrabold text-slate-900" x-text="metrics.totalSelesai"></div>
+                <div class="rounded-2xl border border-brand-300 bg-yellow-gradient p-5 shadow-yellow-glow text-white">
+                  <div class="text-sm font-medium">Total Tamu Selesai</div>
+                  <div class="mt-1 text-3xl font-extrabold" x-text="metrics.totalSelesai"></div>
+                  <div class="mt-2 text-xs flex items-center gap-1">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    <span>Kunjungan selesai</span>
+                  </div>
                 </div>
-                <div class="rounded-2xl border border-brand-100 bg-[#FFF9EC] p-5 shadow-sm">
-                  <div class="text-sm text-slate-700">Total User</div>
-                  <div class="mt-1 text-3xl font-extrabold text-slate-900" x-text="metrics.totalUser"></div>
+                <div class="rounded-2xl border border-brand-300 bg-yellow-gradient p-5 shadow-yellow-glow text-white">
+                  <div class="text-sm font-medium">Total User</div>
+                  <div class="mt-1 text-3xl font-extrabold" x-text="metrics.totalUser"></div>
+                  <div class="mt-2 text-xs flex items-center gap-1">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm7 9a1 1 0 01-1 1H6a1 1 0 01-1-1 7 7 0 0114 0z"/></svg>
+                    <span>Jumlah pengguna</span>
+                  </div>
+                </div>
+                <div class="rounded-2xl border border-brand-300 bg-yellow-gradient p-5 shadow-yellow-glow text-white">
+                  <div class="text-sm font-medium">Kunjungan Hari Ini</div>
+                  <div class="mt-1 text-3xl font-extrabold" x-text="metrics.todayVisits"></div>
+                  <div class="mt-2 text-xs flex items-center gap-1">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span>Kunjungan hari ini</span>
+                  </div>
                 </div>
               </div>
 
               <!-- Grafik Perbandingan Tamu per Hari -->
-              <div class="rounded-2xl border border-brand-100 bg-[#FFF9EC] p-5 shadow-sm">
+              <div class="rounded-2xl border border-brand-300 bg-[#FFF9EC] p-5 shadow-sm">
                 <div class="flex items-center justify-between mb-3">
                   <h3 class="font-semibold text-slate-900">Perbandingan Tamu per Hari (berdasarkan status)</h3>
                 </div>
@@ -269,12 +308,35 @@
                   <canvas id="chartHarian" x-ref="chartHarian" class="h-full w-full"></canvas>
                 </div>
               </div>
+
+              <!-- Statistik Status Tamu -->
+              <div class="rounded-2xl border border-brand-300 bg-[#FFF9EC] p-5 shadow-sm">
+                <h3 class="font-semibold text-slate-900 mb-4">Statistik Status Tamu</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  <div class="rounded-xl bg-amber-50 p-4 text-center border border-amber-200">
+                    <div class="text-2xl font-bold text-amber-700" x-text="statusCounts.menunggu"></div>
+                    <div class="text-sm text-amber-800">Menunggu</div>
+                  </div>
+                  <div class="rounded-xl bg-emerald-50 p-4 text-center border border-emerald-200">
+                    <div class="text-2xl font-bold text-emerald-700" x-text="statusCounts.diterima"></div>
+                    <div class="text-sm text-emerald-800">Diterima</div>
+                  </div>
+                  <div class="rounded-xl bg-rose-50 p-4 text-center border border-rose-200">
+                    <div class="text-2xl font-bold text-rose-700" x-text="statusCounts.ditolak"></div>
+                    <div class="text-sm text-rose-800">Ditolak</div>
+                  </div>
+                  <div class="rounded-xl bg-slate-50 p-4 text-center border border-slate-200">
+                    <div class="text-2xl font-bold text-slate-700" x-text="statusCounts.selesai"></div>
+                    <div class="text-sm text-slate-800">Selesai</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
 
           <!-- ========= KELOLA PENGGUNA ========= -->
           <section x-cloak x-show="active==='users'" x-transition>
-            <div class="rounded-2xl border border-brand-100/80 bg-brand-50/80 backdrop-blur p-5 shadow-soft">
+            <div class="rounded-2xl border border-brand-200/80 bg-brand-50/80 backdrop-blur p-5 shadow-soft">
               <!-- Toolbar -->
               <div class="flex flex-wrap items-center gap-2 justify-between mb-4">
                 <h2 class="text-lg font-bold flex items-center gap-2 text-slate-900">
@@ -282,14 +344,14 @@
                   Kelola Pengguna
                 </h2>
 
-                <div class="flex flex-wrap items-center gap-2 ml-auto">
+                <div class="flex flex-wrap items-center gap-2 ml-auto mobile-stack">
                   <input type="text" placeholder="Cari nama…"
                          x-model.debounce.300ms="filterUser.q"
-                         class="w-44 md:w-56 rounded-xl border border-brand-200 px-3 py-2 text-sm bg-[#FFFDF5] focus:border-brand-500 focus:ring-brand-400 focus:ring-2"
+                         class="w-full md:w-56 rounded-xl border border-brand-300 px-3 py-2 text-sm bg-[#FFFDF5] focus:border-brand-500 focus:ring-brand-400 focus:ring-2"
                          title="Cari Nama">
 
                   <select x-model="filterUser.role"
-                          class="w-40 rounded-xl border border-brand-200 px-3 py-2 text-sm bg-[#FFFDF5] focus:border-brand-500 focus:ring-brand-400 focus:ring-2"
+                          class="w-full md:w-40 rounded-xl border border-brand-300 px-3 py-2 text-sm bg-[#FFFDF5] focus:border-brand-500 focus:ring-brand-400 focus:ring-2"
                           title="Filter Role">
                     <option value="">Semua Role</option>
                     <option value="admin">Admin</option>
@@ -298,13 +360,13 @@
                   </select>
 
                   <button type="button"
-                          class="px-3 py-2 text-sm rounded-lg border border-brand-200 bg-[#FFFDF5] hover:bg-brand-100/80"
+                          class="w-full md:w-auto px-3 py-2 text-sm rounded-lg border border-brand-300 bg-[#FFFDF5] hover:bg-brand-100/80"
                           @click="filterUser={role:'', q:''}">
                     Reset
                   </button>
 
                   <button @click="openAddUser()"
-                          class="ripple rounded-xl bg-brand-500 px-4 py-2 text-white font-semibold shadow-soft hover:bg-brand-600">
+                          class="ripple w-full md:w-auto rounded-xl bg-yellow-gradient px-4 py-2 text-white font-semibold shadow-yellow-glow hover:shadow-lift">
                     Tambah User
                   </button>
                 </div>
@@ -313,7 +375,7 @@
               <!-- Tabel pengguna -->
               <div class="overflow-x-auto scrollbar-thin">
                 <table class="min-w-[820px] w-full text-sm">
-                  <thead class="bg-brand-50">
+                  <thead class="bg-brand-100">
                     <tr class="text-left text-slate-700">
                       <th class="py-3 px-4">Nama</th>
                       <th class="py-3 px-4">Email</th>
@@ -321,7 +383,7 @@
                       <th class="py-3 px-4">Aksi</th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-brand-100">
+                  <tbody class="divide-y divide-brand-200">
                     <template x-for="u in filteredUsers()" :key="u.id">
                       <tr class="bg-[#FFFDF5]">
                         <td class="py-3 px-4 font-medium truncate text-slate-900" x-text="u.full_name || '—'"></td>
@@ -329,8 +391,8 @@
                         <td class="py-3 px-4 uppercase text-slate-700" x-text="u.role"></td>
                         <td class="py-3 px-4">
                           <div class="flex flex-wrap gap-2">
-                            <button @click="editUser(u)" class="rounded-lg bg-brand-50 px-3 py-1.5 text-xs text-slate-800 hover:bg-brand-100 hover:text-brand-800">Edit</button>
-                            <button @click="confirmDelete('user', u)" class="rounded-lg bg-rose-50 px-3 py-1.5 text-xs text-rose-700 hover:bg-rose-100">Hapus</button>
+                            <button @click="editUser(u)" class="rounded-lg bg-brand-100 px-3 py-1.5 text-xs text-slate-800 hover:bg-brand-200 hover:text-brand-800">Edit</button>
+                            <button @click="confirmDelete('user', u)" class="rounded-lg bg-rose-100 px-3 py-1.5 text-xs text-rose-700 hover:bg-rose-200">Hapus</button>
                           </div>
                         </td>
                       </tr>
@@ -346,7 +408,7 @@
 
           <!-- ========= KELOLA TAMU ========= -->
           <section x-cloak x-show="active==='tamu'" x-transition>
-            <div class="rounded-2xl border border-brand-100/80 bg-brand-50/80 backdrop-blur p-5 shadow-soft">
+            <div class="rounded-2xl border border-brand-200/80 bg-brand-50/80 backdrop-blur p-5 shadow-soft">
 
               <!-- Toolbar -->
               <div class="flex flex-wrap items-center gap-2 justify-between mb-4">
@@ -355,13 +417,13 @@
                   Kelola Tamu
                 </h2>
 
-                <div class="flex flex-wrap items-center gap-2 ml-auto">
+                <div class="flex flex-wrap items-center gap-2 ml-auto mobile-stack">
                   <span class="text-sm text-slate-700 whitespace-nowrap">
                     <span class="font-semibold text-brand-800" x-text="filteredTamu().length"></span> hasil
                   </span>
 
                   <select x-model="filter.status"
-                          class="w-36 rounded-xl border border-brand-200 px-3 py-2 text-sm bg-[#FFFDF5] focus:border-brand-500 focus:ring-brand-400 focus:ring-2"
+                          class="w-full md:w-36 rounded-xl border border-brand-300 px-3 py-2 text-sm bg-[#FFFDF5] focus:border-brand-500 focus:ring-brand-400 focus:ring-2"
                           title="Filter Status">
                     <option value="">Semua Status</option>
                     <option value="menunggu">Menunggu</option>
@@ -371,32 +433,31 @@
                   </select>
 
                   <input type="month" x-model="filter.month"
-                         class="w-40 rounded-xl border border-brand-200 px-3 py-2 text-sm bg-[#FFFDF5] focus:border-brand-500 focus:ring-brand-400 focus:ring-2"
+                         class="w-full md:w-40 rounded-xl border border-brand-300 px-3 py-2 text-sm bg-[#FFFDF5] focus:border-brand-500 focus:ring-brand-400 focus:ring-2"
                          title="Filter Bulan">
 
                   <input type="text" placeholder="Cari…"
                          x-model.debounce.300ms="filter.q"
-                         class="w-44 md:w-56 rounded-xl border border-brand-200 px-3 py-2 text-sm bg-[#FFFDF5] focus:border-brand-500 focus:ring-brand-400 focus:ring-2"
+                         class="w-full md:w-56 rounded-xl border border-brand-300 px-3 py-2 text-sm bg-[#FFFDF5] focus:border-brand-500 focus:ring-brand-400 focus:ring-2"
                          title="Cari Nama/Email/Instansi/HP/Bertemu">
 
                   <button type="button"
-                          class="px-3 py-2 text-sm rounded-lg border border-brand-200 bg-[#FFFDF5] hover:bg-brand-100/80"
+                          class="w-full md:w-auto px-3 py-2 text-sm rounded-lg border border-brand-300 bg-[#FFFDF5] hover:bg-brand-100/80"
                           @click="resetFilters()">
                     Reset
                   </button>
 
-                  <button @click="openAddTamu()
-                          " class="ripple rounded-xl bg-brand-500 px-4 py-2 text-white text-sm font-semibold whitespace-nowrap shadow-soft hover:bg-brand-600">
+                  <button @click="openAddTamu()" 
+                          class="ripple w-full md:w-auto rounded-xl bg-yellow-gradient px-4 py-2 text-white text-sm font-semibold whitespace-nowrap shadow-yellow-glow hover:shadow-lift">
                     Tambah Tamu
                   </button>
                 </div>
               </div>
 
               <!-- Tabel + Pagination -->
-              <!-- DI SINI DIUBAH: tidak lagi max-h / overflow-y-auto, jadi hanya scroll horizontal -->
               <div class="overflow-x-auto scrollbar-thin relative">
                 <table class="min-w-[1700px] w-full text-sm">
-                  <thead class="sticky top-0 z-20 bg-brand-50 shadow">
+                  <thead class="sticky top-0 z-20 bg-brand-100 shadow">
                     <tr class="text-left text-slate-700">
                       <th class="py-3 px-5">Nama</th>
                       <th class="py-3 px-5">Email</th>
@@ -406,13 +467,11 @@
                       <th class="py-3 px-5">Nama Instansi</th>
                       <th class="py-3 px-5">Tanggal Berkunjung</th>
                       <th class="py-3 px-5">Waktu Berkunjung</th>
-                      {{-- <th class="py-3 px-5">Bertemu Dengan</th> --}}
-                      {{-- <th class="py-3 px-5 text-center">Dokumen</th> --}}
                       <th class="py-3 px-5 text-center">Status</th>
                       <th class="py-3 px-5">Aksi</th>
                     </tr>
                   </thead>
-                  <tbody class="align-top divide-y divide-brand-100">
+                  <tbody class="align-top divide-y divide-brand-200">
                     <!-- PAGINATED DATA -->
                     <template x-for="row in paginatedTamu()" :key="row.id">
                       <tr class="bg-[#FFFDF5]">
@@ -429,8 +488,8 @@
                         </td>
                         <td class="py-3 px-5">
                           <div class="flex flex-wrap gap-2">
-                            <button @click="editTamu(row)" class="rounded-lg bg-brand-50 px-3 py-1.5 text-xs text-slate-800 hover:bg-brand-100 hover:text-brand-800">Edit</button>
-                            <button @click="confirmDelete('tamu', row)" class="rounded-lg bg-rose-50 px-3 py-1.5 text-xs text-rose-700 hover:bg-rose-100">Hapus</button>
+                            <button @click="editTamu(row)" class="rounded-lg bg-brand-100 px-3 py-1.5 text-xs text-slate-800 hover:bg-brand-200 hover:text-brand-800">Edit</button>
+                            <button @click="confirmDelete('tamu', row)" class="rounded-lg bg-rose-100 px-3 py-1.5 text-xs text-rose-700 hover:bg-rose-200">Hapus</button>
                           </div>
                         </td>
                       </tr>
@@ -454,7 +513,7 @@
                 <div class="flex items-center gap-1">
                   <button
                     type="button"
-                    class="px-3 py-1.5 rounded-lg border border-brand-200 bg-[#FFFDF5] hover:bg-brand-100/80 disabled:opacity-50 disabled:cursor-not-allowed"
+                    class="px-3 py-1.5 rounded-lg border border-brand-300 bg-[#FFFDF5] hover:bg-brand-100/80 disabled:opacity-50 disabled:cursor-not-allowed"
                     @click="prevPage()"
                     :disabled="currentPage === 1"
                   >
@@ -465,15 +524,15 @@
                       type="button"
                       class="px-3 py-1.5 rounded-lg border text-xs"
                       :class="page === currentPage
-                        ? 'bg-brand-500 border-brand-500 text-white'
-                        : 'bg-[#FFFDF5] border-brand-200 text-slate-800 hover:bg-brand-100/80'"
+                        ? 'bg-brand-500 border-brand-500 text-white shadow-yellow-glow'
+                        : 'bg-[#FFFDF5] border-brand-300 text-slate-800 hover:bg-brand-100/80'"
                       @click="goToPage(page)"
                       x-text="page"
                     ></button>
                   </template>
                   <button
                     type="button"
-                    class="px-3 py-1.5 rounded-lg border border-brand-200 bg-[#FFFDF5] hover:bg-brand-100/80 disabled:opacity-50 disabled:cursor-not-allowed"
+                    class="px-3 py-1.5 rounded-lg border border-brand-300 bg-[#FFFDF5] hover:bg-brand-100/80 disabled:opacity-50 disabled:cursor-not-allowed"
                     @click="nextPage()"
                     :disabled="currentPage === totalPages()"
                   >
@@ -491,7 +550,7 @@
 
   <!-- ============== MODAL: Tambah User ============== -->
   <div x-cloak x-show="showAddUser" x-transition.opacity class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm grid place-items-center p-4">
-    <div class="w-full max-w-lg bg-[#FFFDF5] rounded-2xl p-6 shadow-2xl animate-scaleIn ring-1 ring-brand-100">
+    <div class="w-full max-w-lg bg-[#FFFDF5] rounded-2xl p-6 shadow-2xl animate-scaleIn ring-1 ring-brand-200">
       <div class="flex items-start justify-between">
         <h3 class="text-lg font-bold flex items-center gap-2 text-slate-900">
           <svg class="h-5 w-5 text-brand-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm7 9a1 1 0 01-1 1H6a1 1 0 01-1-1 7 7 0 0114 0z"/></svg>
@@ -503,11 +562,11 @@
       <form class="mt-4 space-y-4" @submit.prevent="saveUser">
         <div>
           <label class="block text-sm font-medium text-slate-800">Nama</label>
-          <input type="text" x-model="formUser.full_name" placeholder="Masukkan nama" class="mt-1 w-full rounded-xl border border-brand-200 px-3 py-2 bg-white focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
+          <input type="text" x-model="formUser.full_name" placeholder="Masukkan nama" class="mt-1 w-full rounded-xl border border-brand-300 px-3 py-2 bg-white focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
         </div>
         <div>
           <label class="block text-sm font-medium text-slate-800">Email</label>
-          <input type="email" x-model="formUser.email" placeholder="cth: user@dprdgorontalo.com" required class="mt-1 w-full rounded-xl border border-brand-200 px-3 py-2 bg-white focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
+          <input type="email" x-model="formUser.email" placeholder="cth: user@dprdgorontalo.com" required class="mt-1 w-full rounded-xl border border-brand-300 px-3 py-2 bg-white focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
         </div>
         <div x-show="!editingUser">
           <label class="block text-sm font-medium text-slate-800">Password</label>
@@ -516,12 +575,12 @@
                  placeholder="Minimal 8 karakter"
                  :required="!editingUser"
                  minlength="8"
-                 class="mt-1 w-full rounded-xl border border-brand-200 px-3 py-2 bg-white focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
+                 class="mt-1 w-full rounded-xl border border-brand-300 px-3 py-2 bg-white focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
           <p class="mt-1 text-xs text-slate-600">Password minimal <span class="font-semibold">8</span> karakter.</p>
         </div>
         <div>
           <label class="block text-sm font-medium text-slate-800">Role</label>
-          <select x-model="formUser.role" required class="mt-1 w-full rounded-xl border border-brand-200 px-3 py-2 bg-white focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
+          <select x-model="formUser.role" required class="mt-1 w-full rounded-xl border border-brand-300 px-3 py-2 bg-white focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
             <option value="admin">Admin</option>
             <option value="resepsionis">Resepsionis</option>
             <option value="host">Host</option>
@@ -529,8 +588,8 @@
         </div>
 
         <div class="flex justify-end gap-2 pt-2">
-          <button type="button" @click="showAddUser=false" class="rounded-xl border border-brand-200 px-4 py-2 font-semibold text-slate-800 bg-[#FFFDF5] hover:bg-brand-100/80">Batal</button>
-          <button type="submit" class="ripple rounded-xl bg-brand-500 px-4 py-2 text-white font-semibold shadow-soft hover:bg-brand-600">Simpan</button>
+          <button type="button" @click="showAddUser=false" class="rounded-xl border border-brand-300 px-4 py-2 font-semibold text-slate-800 bg-[#FFFDF5] hover:bg-brand-100/80">Batal</button>
+          <button type="submit" class="ripple rounded-xl bg-yellow-gradient px-4 py-2 text-white font-semibold shadow-yellow-glow hover:shadow-lift">Simpan</button>
         </div>
       </form>
     </div>
@@ -544,10 +603,10 @@
        :class="showAddEditTamu ? 'opacity-100 visible' : 'opacity-0 invisible'">
     <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="showAddEditTamu=false"></div>
 
-    <div class="relative mt-6 w-full max-w-4xl overflow-hidden rounded-3xl bg-[#FFFDF5] shadow-2xl ring-1 ring-brand-100 transition-transform"
+    <div class="relative mt-6 w-full max-w-4xl overflow-hidden rounded-3xl bg-[#FFFDF5] shadow-2xl ring-1 ring-brand-200 transition-transform"
          :class="step===1 ? 'animate-scaleIn' : ''">
       <!-- Header sticky -->
-      <div class="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-brand-100 bg-[#FFFDF5]/95 px-6 py-5 backdrop-blur">
+      <div class="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-brand-200 bg-[#FFFDF5]/95 px-6 py-5 backdrop-blur">
         <div>
           <h3 class="text-2xl font-extrabold flex items-center gap-2 text-slate-900">
             <svg class="h-6 w-6 text-brand-500" viewBox="0 0 24 24" fill="currentColor"><path d="M19 7H5a2 2 0 00-2 2v7h18V9a2 2 0 00-2-2zM3 18h18v1a2 2 0 01-2 2H5a2 2 0 01-2-2v-1z"/></svg>
@@ -565,12 +624,12 @@
         <ol class="flex items-centered gap-6">
           <li class="flex items-center gap-3">
             <span class="grid h-8 w-8 place-items-center rounded-full border-2 font-semibold"
-                  :class="step===1 ? 'border-brand-500 bg-brand-500 text-white' : 'border-amber-200 bg-amber-50 text-amber-700'">1</span>
+                  :class="step===1 ? 'border-brand-500 bg-brand-500 text-white shadow-yellow-glow' : 'border-brand-200 bg-brand-50 text-brand-700'">1</span>
             <span class="text-sm font-medium text-slate-800">Data Keperluan</span>
           </li>
           <li class="flex items-center gap-3">
             <span class="grid h-8 w-8 place-items-center rounded-full border-2 font-semibold"
-                  :class="step===2 ? 'border-brand-500 bg-brand-500 text-white' : 'border-amber-200 bg-amber-50 text-amber-700'">2</span>
+                  :class="step===2 ? 'border-brand-500 bg-brand-500 text-white shadow-yellow-glow' : 'border-brand-200 bg-brand-50 text-brand-700'">2</span>
             <span class="text-sm font-medium text-slate-800">Pihak Tujuan &amp; Dokumen</span>
           </li>
         </ol>
@@ -581,7 +640,7 @@
         <!-- STEP 1 -->
         <section x-show="step===1" x-transition.opacity class="mt-6 space-y-6">
           <!-- Informasi Pemohon -->
-          <div class="rounded-2xl border border-yellow-200 bg-brand-50 p-5">
+          <div class="rounded-2xl border border-brand-300 bg-brand-50 p-5">
             <div class="mb-4 flex items-center gap-3">
               <div class="rounded-full bg-brand-500/20 p-2 text-brand-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
@@ -592,32 +651,32 @@
             <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
               <div>
                 <label class="block text-sm font-medium text-slate-800">Nama Lengkap <span class="text-red-500">*</span></label>
-                <input required x-model="formTamu.nama" type="text" class="mt-1 w-full rounded-xl border border-brand-200 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-400 focus:ring-2" placeholder="Nama lengkap">
+                <input required x-model="formTamu.nama" type="text" class="mt-1 w-full rounded-xl border border-brand-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-400 focus:ring-2" placeholder="Nama lengkap">
               </div>
               <div>
                 <label class="block text-sm font-medium text-slate-800">Alamat Email <span class="text-red-500">*</span></label>
-                <input required x-model="formTamu.email" type="email" class="mt-1 w-full rounded-xl border border-brand-200 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-400 focus:ring-2" placeholder="nama@email.com">
+                <input required x-model="formTamu.email" type="email" class="mt-1 w-full rounded-xl border border-brand-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-400 focus:ring-2" placeholder="nama@email.com">
               </div>
               <div>
                 <label class="block text-sm font-medium text-slate-800">Nomor Handphone (WhatsApp) <span class="text-red-500">*</span></label>
-                <div class="mt-1 flex rounded-xl border border-brand-200 bg-white shadow-sm focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-400">
-                  <span class="inline-flex items-center rounded-l-xl bg-brand-50 px-3 text-slate-700 select-none">+62</span>
+                <div class="mt-1 flex rounded-xl border border-brand-300 bg-white shadow-sm focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-400">
+                  <span class="inline-flex items-center rounded-l-xl bg-brand-100 px-3 text-slate-700 select-none">+62</span>
                   <input required x-model="formTamu.no_hp" type="tel" class="w-full rounded-r-xl px-3 py-2 focus:outline-none" placeholder="81234567890">
                 </div>
                 <p class="mt-1 text-xs text-slate-600">Format: 812-3456-7890 (tanpa +62)</p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-slate-800">Jumlah Peserta <span class="text-red-500">*</span></label>
-                <input required x-model.number="formTamu.jumlah_peserta" type="number" min="1" max="50" class="mt-1 w-full rounded-xl border border-brand-200 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-400 focus:ring-2" placeholder="cth: 10">
+                <input required x-model.number="formTamu.jumlah_peserta" type="number" min="1" max="50" class="mt-1 w-full rounded-xl border border-brand-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-400 focus:ring-2" placeholder="cth: 10">
                 <p class="mt-1 text-xs text-slate-600">Maksimal 50 orang per kunjungan</p>
               </div>
             </div>
           </div>
 
           <!-- Informasi Instansi/Organisasi -->
-          <div class="rounded-2xl border border-amber-200 bg-amber-50 p-5">
+          <div class="rounded-2xl border border-brand-300 bg-brand-50 p-5">
             <div class="mb-4 flex items-center gap-3">
-              <div class="rounded-full bg-amber-500/20 p-2 text-amber-700">
+              <div class="rounded-full bg-brand-500/20 p-2 text-brand-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/></svg>
               </div>
               <h4 class="text-lg font-semibold text-slate-900">Informasi Instansi/Organisasi</h4>
@@ -625,16 +684,16 @@
 
             <label class="block text-sm font-medium text-slate-800">Instansi/Daerah Asal <span class="text-red-500">*</span></label>
             <div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-4">
-              <label class="group flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-amber-100 cursor-pointer hover:ring-brand-300">
+              <label class="group flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 cursor-pointer hover:ring-brand-400">
                 <input type="radio" x-model="formTamu.instansi_kategori" value="opd" required><span class="text-sm text-slate-800">OPD</span>
               </label>
-              <label class="group flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-amber-100 cursor-pointer hover:ring-brand-300">
+              <label class="group flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 cursor-pointer hover:ring-brand-400">
                 <input type="radio" x-model="formTamu.instansi_kategori" value="lembaga"><span class="text-sm text-slate-800">Lembaga</span>
               </label>
-              <label class="group flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-amber-100 cursor-pointer hover:ring-brand-300">
+              <label class="group flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 cursor-pointer hover:ring-brand-400">
                 <input type="radio" x-model="formTamu.instansi_kategori" value="perseorangan"><span class="text-sm text-slate-800">Perseorangan</span>
               </label>
-              <label class="group flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-amber-100 cursor-pointer hover:ring-brand-300">
+              <label class="group flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 cursor-pointer hover:ring-brand-400">
                 <input type="radio" x-model="formTamu.instansi_kategori" value="ormas"><span class="text-sm text-slate-800">ORMAS</span>
               </label>
             </div>
@@ -642,13 +701,13 @@
             <div class="mt-4 grid grid-cols-1 gap-5 md:grid-cols-2">
               <div class="md:col-span-2">
                 <label class="block text-sm font-medium text-slate-800">Nama Instansi/Organisasi <span class="text-red-500">*</span></label>
-                <input required x-model="formTamu.instansi_nama" type="text" class="mt-1 w-full rounded-xl border border-brand-200 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-400 focus:ring-2" placeholder="cth: Dinas Pendidikan">
+                <input required x-model="formTamu.instansi_nama" type="text" class="mt-1 w-full rounded-xl border border-brand-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-400 focus:ring-2" placeholder="cth: Dinas Pendidikan">
               </div>
             </div>
           </div>
 
           <!-- Jadwal -->
-          <div class="rounded-2xl border border-yellow-200 bg-brand-50 p-5">
+          <div class="rounded-2xl border border-brand-300 bg-brand-50 p-5">
             <div class="mb-4 flex items-center gap-3">
               <div class="rounded-full bg-brand-500/20 p-2 text-brand-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -658,26 +717,26 @@
             <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
               <div>
                 <label class="block text-sm font-medium text-slate-800">Tanggal Kunjungan <span class="text-red-500">*</span></label>
-                <input required x-model="formTamu.tanggal_kunjungan" type="date" class="mt-1 w-full rounded-xl border border-brand-200 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
+                <input required x-model="formTamu.tanggal_kunjungan" type="date" class="mt-1 w-full rounded-xl border border-brand-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
               </div>
               <div>
                 <label class="block text-sm font-medium text-slate-800">Waktu Kunjungan <span class="text-red-500">*</span></label>
-                <input required x-model="formTamu.waktu_kunjungan" type="time" class="mt-1 w-full rounded-xl border border-brand-200 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
+                <input required x-model="formTamu.waktu_kunjungan" type="time" class="mt-1 w-full rounded-xl border border-brand-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
               </div>
             </div>
           </div>
 
           <div class="flex items-center justify-end gap-3">
-            <button type="button" @click="step=2" class="ripple rounded-xl bg-brand-500 px-5 py-2 font-semibold text-white hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0 transition-transform focus:outline-none focus:ring-2 focus:ring-brand-300">Lanjut</button>
+            <button type="button" @click="step=2" class="ripple rounded-xl bg-yellow-gradient px-5 py-2 font-semibold text-white shadow-yellow-glow hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0 transition-transform focus:outline-none focus:ring-2 focus:ring-brand-300">Lanjut</button>
           </div>
         </section>
 
         <!-- STEP 2 -->
         <section x-show="step===2" x-transition.opacity class="mt-6 space-y-6">
           <!-- Pihak Tujuan -->
-          <div class="rounded-2xl border border-fuchsia-200 bg-fuchsia-50 p-5">
+          <div class="rounded-2xl border border-brand-300 bg-brand-50 p-5">
             <div class="mb-4 flex items-center gap-3">
-              <div class="rounded-full bg-fuchsia-500/20 p-2 text-fuchsia-700">
+              <div class="rounded-full bg-brand-500/20 p-2 text-brand-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M13 7H7v6h6V7z" /><path fill-rule="evenodd" d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm10 12H5V5h10v10z" clip-rule="evenodd"/></svg>
               </div>
               <h4 class="text-lg font-semibold text-slate-900">Pihak yang Dituju</h4>
@@ -685,53 +744,53 @@
 
             <label class="block text-sm font-medium text-slate-800">Kategori Pihak yang Dituju <span class="text-red-500">*</span></label>
             <div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-3">
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 cursor-pointer hover:ring-brand-300">
+              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 cursor-pointer hover:ring-brand-400">
                 <input type="radio" x-model="formTamu.bertemu_kategori" value="Pimpinan" required @change="formTamu.bertemu_sub=''; updateBertemuText()"><span class="text-sm text-slate-800">Pimpinan</span>
               </label>
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 cursor-pointer hover:ring-brand-300">
+              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 cursor-pointer hover:ring-brand-400">
                 <input type="radio" x-model="formTamu.bertemu_kategori" value="AKD" @change="formTamu.bertemu_sub=''; updateBertemuText()"><span class="text-sm text-slate-800">AKD</span>
               </label>
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 cursor-pointer hover:ring-brand-300">
+              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 cursor-pointer hover:ring-brand-400">
                 <input type="radio" x-model="formTamu.bertemu_kategori" value="Sekretariat" @change="formTamu.bertemu_sub=''; updateBertemuText()"><span class="text-sm text-slate-800">Sekretariat</span>
               </label>
             </div>
 
             <!-- List dinamis -->
             <div class="mt-4 space-y-3" x-show="formTamu.bertemu_kategori==='Pimpinan'">
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 hover:ring-brand-300"><input type="radio" x-model="formTamu.bertemu_sub" value="Ketua DPRD" @change="updateBertemuText()" required><span class="text-slate-800">Ketua DPRD</span></label>
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 hover:ring-brand-300"><input type="radio" x-model="formTamu.bertemu_sub" value="Wakil ketua 1" @change="updateBertemuText()"><span class="text-slate-800">Wakil ketua 1</span></label>
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 hover:ring-brand-300"><input type="radio" x-model="formTamu.bertemu_sub" value="Wakil ketua 2" @change="updateBertemuText()"><span class="text-slate-800">Wakil ketua 2</span></label>
+              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 hover:ring-brand-400"><input type="radio" x-model="formTamu.bertemu_sub" value="Ketua DPRD" @change="updateBertemuText()" required><span class="text-slate-800">Ketua DPRD</span></label>
+              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 hover:ring-brand-400"><input type="radio" x-model="formTamu.bertemu_sub" value="Wakil ketua 1" @change="updateBertemuText()"><span class="text-slate-800">Wakil ketua 1</span></label>
+              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 hover:ring-brand-400"><input type="radio" x-model="formTamu.bertemu_sub" value="Wakil ketua 2" @change="updateBertemuText()"><span class="text-slate-800">Wakil ketua 2</span></label>
             </div>
 
             <div class="mt-4" x-show="formTamu.bertemu_kategori==='AKD'">
               <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 hover:ring-brand-300"><input type="radio" x-model="formTamu.bertemu_sub" value="Badan Kehormatan" @change="updateBertemuText()" required><span class="text-slate-800">Badan Kehormatan</span></label>
-                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 hover:ring-brand-300"><input type="radio" x-model="formTamu.bertemu_sub" value="Badan Anggaran" @change="updateBertemuText()"><span class="text-slate-800">Badan Anggaran</span></label>
-                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 hover:ring-brand-300"><input type="radio" x-model="formTamu.bertemu_sub" value="Badan Pembentukan Peraturan Daerah" @change="updateBertemuText()"><span class="text-slate-800">Badan Pembentukan Peraturan Daerah</span></label>
-                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 hover:ring-brand-300"><input type="radio" x-model="formTamu.bertemu_sub" value="Badan Musyawarah" @change="updateBertemuText()"><span class="text-slate-800">Badan Musyawarah</span></label>
-                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 hover:ring-brand-300"><input type="radio" x-model="formTamu.bertemu_sub" value="Komisi 1" @change="updateBertemuText()"><span class="text-slate-800">Komisi 1</span></label>
-                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 hover:ring-brand-300"><input type="radio" x-model="formTamu.bertemu_sub" value="Komisi 2" @change="updateBertemuText()"><span class="text-slate-800">Komisi 2</span></label>
-                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 hover:ring-brand-300"><input type="radio" x-model="formTamu.bertemu_sub" value="Komisi 3" @change="updateBertemuText()"><span class="text-slate-800">Komisi 3</span></label>
+                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 hover:ring-brand-400"><input type="radio" x-model="formTamu.bertemu_sub" value="Badan Kehormatan" @change="updateBertemuText()" required><span class="text-slate-800">Badan Kehormatan</span></label>
+                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 hover:ring-brand-400"><input type="radio" x-model="formTamu.bertemu_sub" value="Badan Anggaran" @change="updateBertemuText()"><span class="text-slate-800">Badan Anggaran</span></label>
+                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 hover:ring-brand-400"><input type="radio" x-model="formTamu.bertemu_sub" value="Badan Pembentukan Peraturan Daerah" @change="updateBertemuText()"><span class="text-slate-800">Badan Pembentukan Peraturan Daerah</span></label>
+                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 hover:ring-brand-400"><input type="radio" x-model="formTamu.bertemu_sub" value="Badan Musyawarah" @change="updateBertemuText()"><span class="text-slate-800">Badan Musyawarah</span></label>
+                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 hover:ring-brand-400"><input type="radio" x-model="formTamu.bertemu_sub" value="Komisi 1" @change="updateBertemuText()"><span class="text-slate-800">Komisi 1</span></label>
+                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 hover:ring-brand-400"><input type="radio" x-model="formTamu.bertemu_sub" value="Komisi 2" @change="updateBertemuText()"><span class="text-slate-800">Komisi 2</span></label>
+                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 hover:ring-brand-400"><input type="radio" x-model="formTamu.bertemu_sub" value="Komisi 3" @change="updateBertemuText()"><span class="text-slate-800">Komisi 3</span></label>
               </div>
             </div>
 
             <div class="mt-4 space-y-3" x-show="formTamu.bertemu_kategori==='Sekretariat'">
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 hover:ring-brand-300"><input type="radio" x-model="formTamu.bertemu_sub" value="Sekretaris" @change="updateBertemuText()" required><span class="text-slate-800">Sekretaris</span></label>
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 hover:ring-brand-300"><input type="radio" x-model="formTamu.bertemu_sub" value="Bagian Umum dan Humas" @change="updateBertemuText()"><span class="text-slate-800">Bagian Umum dan Humas</span></label>
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 hover:ring-brand-300"><input type="radio" x-model="formTamu.bertemu_sub" value="Bagian Keuangan" @change="updateBertemuText()"><span class="text-slate-800">Bagian Keuangan</span></label>
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-fuchsia-100 hover:ring-brand-300"><input type="radio" x-model="formTamu.bertemu_sub" value="Persidangan dan Perundang-undangan" @change="updateBertemuText()"><span class="text-slate-800">Persidangan dan Perundang-undangan</span></label>
+              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 hover:ring-brand-400"><input type="radio" x-model="formTamu.bertemu_sub" value="Sekretaris" @change="updateBertemuText()" required><span class="text-slate-800">Sekretaris</span></label>
+              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 hover:ring-brand-400"><input type="radio" x-model="formTamu.bertemu_sub" value="Bagian Umum dan Humas" @change="updateBertemuText()"><span class="text-slate-800">Bagian Umum dan Humas</span></label>
+              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 hover:ring-brand-400"><input type="radio" x-model="formTamu.bertemu_sub" value="Bagian Keuangan" @change="updateBertemuText()"><span class="text-slate-800">Bagian Keuangan</span></label>
+              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-brand-200 hover:ring-brand-400"><input type="radio" x-model="formTamu.bertemu_sub" value="Persidangan dan Perundang-undangan" @change="updateBertemuText()"><span class="text-slate-800">Persidangan dan Perundang-undangan</span></label>
             </div>
 
             <!-- Gabungan (readonly) -->
             <div class="mt-4">
               <label class="block text-sm font-medium text-slate-800">Bertemu Dengan (otomatis)</label>
-              <input x-model="formTamu.bertemu_dengan" type="text" readonly class="mt-1 w-full rounded-xl border border-brand-200 px-3 py-2 bg-amber-50 text-slate-700">
+              <input x-model="formTamu.bertemu_dengan" type="text" readonly class="mt-1 w-full rounded-xl border border-brand-300 px-3 py-2 bg-brand-50 text-slate-700">
               <p class="text-xs text-slate-600 mt-1">Otomatis dari pilihan kategori & sub-kategori.</p>
             </div>
           </div>
 
           <!-- Upload Dokumen -->
-          <div class="rounded-2xl border border-yellow-200 bg-brand-50 p-5">
+          <div class="rounded-2xl border border-brand-300 bg-brand-50 p-5">
             <div class="mb-4 flex items-center gap-3">
               <div class="rounded-full bg-brand-500/20 p-2 text-brand-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M8 7a4 4 0 118 0v4a2 2 0 11-4 0V7a2 2 0 10-4 0v6a4 4 0 108 0V9h2v4a6 6 0 11-12 0V7z"/></svg>
@@ -741,16 +800,16 @@
             <div class="grid grid-cols-1 gap-5">
               <div>
                 <label class="block text-sm font-medium text-slate-800">Surat Pemberitahuan/Surat Tugas (opsional)</label>
-                <input type="file" @change="onDokumenChange($event)" accept=".pdf,.jpg,.jpeg,.png" class="mt-1 w-full rounded-xl border border-brand-200 bg-white px-3 py-2 file:mr-4 file:rounded-lg file:border-0 file:bg-brand-500 file:px-4 file:py-2 file:font-semibold file:text-white hover:file:bg-brand-600">
+                <input type="file" @change="onDokumenChange($event)" accept=".pdf,.jpg,.jpeg,.png" class="mt-1 w-full rounded-xl border border-brand-300 bg-white px-3 py-2 file:mr-4 file:rounded-lg file:border-0 file:bg-yellow-gradient file:px-4 file:py-2 file:font-semibold file:text-white hover:file:shadow-yellow-glow">
                 <p class="mt-1 text-xs text-slate-600" x-show="formTamu.dokumen">File terset: <span class="font-medium" x-text="formTamu.dokumen_name"></span></p>
               </div>
             </div>
           </div>
 
           <!-- Status -->
-          <div class="rounded-2xl border border-amber-200 bg-amber-50 p-5">
+          <div class="rounded-2xl border border-brand-300 bg-brand-50 p-5">
             <label class="block text-sm font-medium text-slate-800">Status</label>
-            <select x-model="formTamu.status_sekarang" class="mt-1 w-full rounded-xl border border-brand-200 px-3 py-2 bg-white focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
+            <select x-model="formTamu.status_sekarang" class="mt-1 w-full rounded-xl border border-brand-300 px-3 py-2 bg-white focus:border-brand-500 focus:ring-brand-400 focus:ring-2">
               <option value="menunggu">Menunggu</option>
               <option value="ditolak">Ditolak</option>
               <option value="diterima">Diterima</option>
@@ -759,10 +818,10 @@
           </div>
 
           <div class="flex items-center justify-between">
-            <button type="button" @click="step=1" class="rounded-xl px-4 py-2 text-slate-800 hover:bg-amber-50 transition-colors">Kembali</button>
+            <button type="button" @click="step=1" class="rounded-xl px-4 py-2 text-slate-800 hover:bg-brand-50 transition-colors">Kembali</button>
             <div class="flex items-center gap-3">
-              <button type="button" @click="showAddEditTamu=false" class="rounded-xl px-4 py-2 text-slate-700 bg-[#FFFDF5] hover:bg-amber-50 transition-colors">Batal</button>
-              <button type="submit" class="ripple rounded-xl bg-brand-500 px-5 py-2 font-semibold text-white hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0 transition-transform focus:outline-none focus:ring-2 focus:ring-brand-300">Simpan</button>
+              <button type="button" @click="showAddEditTamu=false" class="rounded-xl px-4 py-2 text-slate-700 bg-[#FFFDF5] hover:bg-brand-50 transition-colors">Batal</button>
+              <button type="submit" class="ripple rounded-xl bg-yellow-gradient px-5 py-2 font-semibold text-white shadow-yellow-glow hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0 transition-transform focus:outline-none focus:ring-2 focus:ring-brand-300">Simpan</button>
             </div>
           </div>
         </section>
@@ -772,7 +831,7 @@
 
   <!-- ============== MODAL: Logout Confirm ============== -->
   <div x-cloak x-show="showLogout" x-transition.opacity class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm grid place-items-center p-4">
-    <div class="w-full max-w-md bg-[#FFFDF5] rounded-2xl p-6 shadow-2xl animate-scaleIn ring-1 ring-brand-100">
+    <div class="w-full max-w-md bg-[#FFFDF5] rounded-2xl p-6 shadow-2xl animate-scaleIn ring-1 ring-brand-200">
       <div class="flex items-start justify-between">
         <h3 class="text-lg font-bold flex items-center gap-2 text-slate-900">
           <svg class="h-5 w-5 text-rose-600" viewBox="0 0 24 24" fill="currentColor"><path d="M16 13v-2H7V8l-5 4 5 4v-3zM20 3h-8a2 2 0 00-2 2v4h2V5h8v14h-8v-4h-2v4a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2z"/></svg>
@@ -782,7 +841,7 @@
       </div>
       <p class="mt-3 text-slate-700">Yakin untuk logout?</p>
       <div class="mt-6 flex justify-end gap-2">
-        <button type="button" class="rounded-xl border border-brand-200 px-4 py-2 font-semibold text-slate-800 bg-[#FFFDF5] hover:bg-brand-100/80" @click="showLogout=false">Tidak</button>
+        <button type="button" class="rounded-xl border border-brand-300 px-4 py-2 font-semibold text-slate-800 bg-[#FFFDF5] hover:bg-brand-100/80" @click="showLogout=false">Tidak</button>
         <button type="button" class="ripple rounded-xl bg-rose-600 px-4 py-2 text-white font-semibold hover:bg-rose-700" @click="doLogout()">Ya, Logout</button>
       </div>
     </div>
@@ -829,7 +888,8 @@
         tamu:[],
 
         dashboardRange: 7,
-        metrics: { totalTamu:0, totalSelesai:0, totalUser:0 },
+        metrics: { totalTamu:0, totalSelesai:0, totalUser:0, todayVisits: 0 },
+        statusCounts: { menunggu: 0, diterima: 0, ditolak: 0, selesai: 0 },
         _chart: null,
 
         // Pagination state (Kelola Tamu)
@@ -859,6 +919,7 @@
           }
 
           this.computeMetrics();
+          this.computeStatusCounts();
 
           if (this.$watch) {
             this.$watch('active', (val) => {
@@ -881,7 +942,18 @@
           const totalSelesai = (this.tamu||[]).filter(r => (r.status_sekarang||'').toLowerCase()==='selesai').length;
           const uniq = new Set((this.tamu||[]).map(r=>r.tamu_id).filter(Boolean));
           const totalTamu = uniq.size;
-          this.metrics = { totalTamu, totalSelesai, totalUser };
+          const today = todayISO();
+          const todayVisits = (this.tamu||[]).filter(r => r.tanggal_kunjungan === today).length;
+          this.metrics = { totalTamu, totalSelesai, totalUser, todayVisits };
+        },
+
+        computeStatusCounts(){
+          const statuses = ['menunggu', 'diterima', 'ditolak', 'selesai'];
+          const counts = {};
+          statuses.forEach(status => {
+            counts[status] = (this.tamu||[]).filter(r => (r.status_sekarang||'').toLowerCase() === status).length;
+          });
+          this.statusCounts = counts;
         },
 
         dateAdd(d, days){
@@ -910,27 +982,27 @@
           return { labels, index };
         },
 
-        // === DATA UNTUK GRAFIK (area line lembut & ringan) ===
+        // === DATA UNTUK GRAFIK (BAR CHART) - PERBAIKAN ===
         seriesByStatus(days){
           const statuses = ['menunggu','diterima','ditolak','selesai'];
 
-          // Warna selaras tema kuning/amber, dengan fill lembut (alpha rendah)
+          // Warna selaras tema kuning
           const colors = {
             menunggu: {
-              border: 'rgba(245, 158, 11, 1)',   // amber-500
-              bg:     'rgba(245, 158, 11, 0.18)'
+              bg:     'rgba(245, 158, 11, 0.8)',   // amber-500
+              hover:  'rgba(245, 158, 11, 1)'
             },
             diterima: {
-              border: 'rgba(16, 185, 129, 1)',   // emerald-500
-              bg:     'rgba(16, 185, 129, 0.12)'
+              bg:     'rgba(16, 185, 129, 0.8)',   // emerald-500
+              hover:  'rgba(16, 185, 129, 1)'
             },
             ditolak: {
-              border: 'rgba(244, 63, 94, 1)',    // rose-500
-              bg:     'rgba(244, 63, 94, 0.12)'
+              bg:     'rgba(244, 63, 94, 0.8)',    // rose-500
+              hover:  'rgba(244, 63, 94, 1)'
             },
             selesai: {
-              border: 'rgba(148, 163, 184, 1)',  // slate-400/500
-              bg:     'rgba(148, 163, 184, 0.14)'
+              bg:     'rgba(148, 163, 184, 0.8)',  // slate-400/500
+              hover:  'rgba(148, 163, 184, 1)'
             }
           };
 
@@ -938,11 +1010,18 @@
           const map = {};
           statuses.forEach(s=> map[s] = new Array(labels.length).fill(0));
 
+          // PERBAIKAN: Pastikan semua data diproses dengan benar
           (this.tamu||[]).forEach(row=>{
             const tgl = row.tanggal_kunjungan;
-            if(!tgl || !index.hasOwnProperty(tgl)) return;
-            const st = (row.status_sekarang||'').toLowerCase();
-            if(map[st]) map[st][index[tgl]] += 1;
+            if(!tgl) return;
+            
+            // PERBAIKAN: Normalisasi status untuk menghindari case sensitivity
+            const st = (row.status_sekarang||'').toLowerCase().trim();
+            
+            // PERBAIKAN: Pastikan tanggal ada dalam rentang yang dipilih
+            if(index.hasOwnProperty(tgl) && map[st]) {
+              map[st][index[tgl]] += 1;
+            }
           });
 
           const datasets = statuses.map(s=>{
@@ -951,23 +1030,26 @@
             const palette = colors[s];
 
             return {
-              label: s.charAt(0).toUpperCase()+s.slice(1),
+              label: this.capitalizeFirst(s),
               data,
-              hidden: !hasVal,
-              tension: 0.35,
-              borderWidth: 2,
-              fill: true,
-              borderColor: palette.border,
+              // PERBAIKAN: Jangan sembunyikan dataset meskipun tidak ada data
+              // Ini memastikan semua status tetap tampil di legend
+              hidden: false,
               backgroundColor: palette.bg,
-              pointRadius: 0,
-              pointHoverRadius: 4,
-              pointHitRadius: 10,
-              borderCapStyle: 'round',
-              borderJoinStyle: 'round'
+              borderColor: palette.hover,
+              borderWidth: 1,
+              borderRadius: 4,
+              borderSkipped: false,
+              hoverBackgroundColor: palette.hover,
             };
           });
 
           return { labels, datasets };
+        },
+
+        // Helper untuk kapitalisasi pertama
+        capitalizeFirst(string) {
+          return string.charAt(0).toUpperCase() + string.slice(1);
         },
 
         refreshChart(){
@@ -997,14 +1079,14 @@
           const that = this;
 
           this._chart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: { labels, datasets },
             options: {
               responsive: true,
               maintainAspectRatio: false,
               // Animasi singkat (lebih ringan)
               animation: {
-                duration: 200,
+                duration: 300,
                 easing: 'easeOutQuad'
               },
               interaction: {
@@ -1019,7 +1101,11 @@
                     pointStyle: 'circle',
                     padding: 16,
                     color: '#334155', // slate-700
-                    boxWidth: 10
+                    boxWidth: 10,
+                    // PERBAIKAN: Pastikan teks legend tidak terpotong
+                    font: {
+                      size: 12
+                    }
                   }
                 },
                 tooltip: {
@@ -1049,6 +1135,7 @@
               },
               scales: {
                 x: {
+                  stacked: true,
                   grid: {
                     display: false,
                     drawBorder: false
@@ -1065,6 +1152,7 @@
                   }
                 },
                 y: {
+                  stacked: true,
                   beginAtZero:true,
                   precision:0,
                   ticks: {
@@ -1237,6 +1325,7 @@
             this.showAddEditTamu=false;
             await this.loadKunjungan();
             this.computeMetrics();
+            this.computeStatusCounts();
             this.refreshChart();
             this.currentPage = 1;
           }catch(e){
@@ -1257,6 +1346,7 @@
               await api(`/admin/api/kunjungan/${item.id}`, { method:'DELETE' });
               await this.loadKunjungan();
               this.computeMetrics();
+              this.computeStatusCounts();
               this.refreshChart();
               // pastikan halaman tidak melewati total halaman baru
               const total = this.filteredTamu().length;
@@ -1372,8 +1462,8 @@
     const topbarObserver = ()=>{
       const topbar = document.getElementById('topbar');
       function setShadow(){
-        if (window.scrollY > 6) topbar.classList.add('shadow','bg-brand-50/95');
-        else topbar.classList.remove('shadow','bg-brand-50/95');
+        if (window.scrollY > 6) topbar.classList.add('shadow','bg-brand-100/95');
+        else topbar.classList.remove('shadow','bg-brand-100/95');
       }
       setShadow(); window.addEventListener('scroll', setShadow, { passive:true });
     }

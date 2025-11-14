@@ -80,7 +80,7 @@
     @yield('content')
 
   <!-- TOAST -->
-  <div id="toast" class="hidden pointer-events-none fixed bottom-5 right-5 z-60 rounded-xl bg-emerald-600 px-4 py-3 text-white shadow-lg">Perubahan disimpan.</div>
+  <div id="toast" class="hidden pointer-events-none fixed bottom-5 right-5 z-60 rounded-xl bg-emerald-600 px-4 py-3 text-white shadow-lg">Berhasil.</div>
 
   <!-- SCRIPTS -->
   <script>

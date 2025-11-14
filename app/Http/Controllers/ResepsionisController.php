@@ -168,59 +168,61 @@ class ResepsionisController extends Controller
     {
         // Query params
         $q      = trim((string) $request->get('q', ''));
-        $bulan  = trim((string) $request->get('bulan', ''));   // "01".."12"
-        $status = trim((string) $request->get('status', ''));  // menunggu|diterima|disetujui|ditolak|selesai
+        $bulan  = trim((string) $request->get('bulan', ''));
+        $status = trim((string) $request->get('status', ''));
 
-        // Samakan alias status: "disetujui" -> "diterima"
         if ($status === 'disetujui') {
             $status = 'diterima';
         }
 
-        // Base query: ambil kunjungan + relasi tamu & kategori pihak
+        // Base query dengan eager loading yang lebih spesifik
         $query = Kunjungan::query()
-            ->with(['tamu', 'kategoriPihak'])
+            ->with([
+                'tamu',
+                'kategoriPihak' => function($query) {
+                    $query->select('id', 'sub_kategori');
+                }
+            ])
+            ->leftJoin('kategori_pihak', 'kategori_pihak.id', '=', 'kunjungan.kategori_pihak_id')
             ->orderByDesc('tanggal_kunjungan')
-            ->leftJoin('kategori_pihak','kategori_pihak.id','=','kunjungan.kategori_pihak_id')  // butuh nama tamu
             ->orderByDesc('waktu_kunjungan')
-            ->select('kunjungan.*');
+            ->select('kunjungan.*', 'kategori_pihak.sub_kategori'); // Tambahkan kolom yang diperlukan
 
-        // Filter status (opsional)
+        // Filter status
         if ($status !== '') {
             $query->where('status_sekarang', $status);
         }
 
-        // Filter bulan (opsional) → berdasarkan kolom tanggal_kunjungan
+        // Filter bulan
         if ($bulan !== '' && ctype_digit($bulan) && (int)$bulan >= 1 && (int)$bulan <= 12) {
             $query->whereMonth('tanggal_kunjungan', (int) $bulan);
         }
 
-        // Pencarian bebas (opsional) pada beberapa kolom & relasi tamu
+        // Pencarian
         if ($q !== '') {
             $query->where(function ($w) use ($q) {
                 $w->where('keperluan', 'LIKE', "%{$q}%")
-                  ->orWhere('instansi_nama', 'LIKE', "%{$q}%")
-                  ->orWhere('dokumen', 'LIKE', "%{$q}%")
-                  ->orWhere('waktu_kunjungan', 'LIKE', "%{$q}%")
-                  ->orWhereDate('tanggal_kunjungan', $q) // dukung input langsung "2025-11-06"
-                  ->orWhereHas('tamu', function ($t) use ($q) {
-                      $t->where('nama', 'LIKE', "%{$q}%")
+                ->orWhere('instansi_nama', 'LIKE', "%{$q}%")
+                ->orWhere('dokumen', 'LIKE', "%{$q}%")
+                ->orWhere('waktu_kunjungan', 'LIKE', "%{$q}%")
+                ->orWhereDate('tanggal_kunjungan', $q)
+                ->orWhereHas('tamu', function ($t) use ($q) {
+                    $t->where('nama', 'LIKE', "%{$q}%")
                         ->orWhere('email', 'LIKE', "%{$q}%")
                         ->orWhere('no_hp', 'LIKE', "%{$q}%")
                         ->orWhere('instansi_nama', 'LIKE', "%{$q}%")
                         ->orWhere('instansi_kategori', 'LIKE', "%{$q}%");
-                  })
-                  ->orWhereHas('kategoriPihak', function ($kp) use ($q) {
-                      $kp->where('subnama', 'LIKE', "%{$q}%")
-                         ->orWhere('sub_kategori', 'LIKE', "%{$q}%")
-                         ->orWhere('kategori', 'LIKE', "%{$q}%");
-                  });
+                })
+                ->orWhereHas('kategoriPihak', function ($kp) use ($q) {
+                    $kp->where('sub_kategori', 'LIKE', "%{$q}%")
+                        ->orWhere('subnama', 'LIKE', "%{$q}%")
+                        ->orWhere('kategori', 'LIKE', "%{$q}%");
+                });
             });
         }
 
-        // Paginate
         $tamu = $query->paginate(15)->withQueryString();
 
-        // Render view data tamu
         return view('resepsionis.datatamu', compact('tamu'));
     }
     private function labelFromCode(string $code): string

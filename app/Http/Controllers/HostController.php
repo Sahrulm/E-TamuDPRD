@@ -153,8 +153,8 @@ class HostController extends Controller
         $alasan = $r->input('alasan', 'Jadwal belum tersedia pada waktu yang diajukan.');
 
         $pesan = "Halo {$nama},\n\n"
-            . "Mohon maaf, pengajuan kunjungan Anda ke *DPRD Kota Gorontalo* telah *DITOLAK*.\n"
-            . "Alasan: {$alasan}\n\n"
+            . "Mohon maaf, pengajuan kunjungan Anda ke *DPRD Kota Gorontalo* telah *DITOLAK*.\n\n"
+            . "Alasan: {$alasan}\n"
             . "Silakan mengajukan kembali dengan jadwal lain. Terima kasih.";
 
         if ($nomor) {

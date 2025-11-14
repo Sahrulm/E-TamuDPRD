@@ -14,14 +14,14 @@
         extend: {
           colors: {
             brand: {
-              50:  '#FFF8E6',
-              100: '#FFF1CC',
-              200: '#FFE199',
-              300: '#FFD166',
-              400: '#FFC233',
-              500: '#FFB300', /* kuning utama */
-              600: '#E6A100',
-              700: '#B37D00'
+              50:  '#FFFDF0',
+              100: '#FFF9D9',
+              200: '#FFF3B2',
+              300: '#FFEC8A',
+              400: '#FFE563',
+              500: '#FFDD3C', /* kuning yang lebih cerah */
+              600: '#E6C736',
+              700: '#B3992A'
             },
             night: {
               900: '#0B1220',
@@ -29,9 +29,9 @@
             }
           },
           boxShadow: {
-            soft: '0 10px 30px -12px rgba(0,0,0,.12)',
-            lift: '0 18px 40px -20px rgba(0,0,0,.25)',
-            glow: '0 10px 30px -12px rgba(255,179,0,.45)'
+            soft: '0 4px 12px -2px rgba(0,0,0,.08)',
+            lift: '0 12px 24px -8px rgba(255, 221, 60, 0.3)',
+            glow: '0 8px 20px -6px rgba(255, 221, 60, 0.5)'
           },
           keyframes: {
             fadeUp: { '0%': { opacity: 0, transform: 'translateY(12px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
@@ -54,19 +54,34 @@
     }
   </script>
   <style>
-    /* Pola halus */
+    /* Pola halus yang lebih ringan */
     .pattern-dots {
-      background-image: radial-gradient(#FFE199 1px, transparent 1px);
-      background-size: 14px 14px;
+      background-image: radial-gradient(#FFEC8A 1px, transparent 1px);
+      background-size: 16px 16px;
       background-position: 0 0;
     }
+    
+    /* Navbar dengan background kuning */
+    .nav-wrap {
+      background-color: #FFDD3C;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
     /* Underline animasi untuk nav */
-    .nav-link { position: relative; }
+    .nav-link { 
+      position: relative; 
+      color: rgba(0,0,0,0.7);
+      transition: color 0.2s;
+    }
+    .nav-link:hover { 
+      color: rgba(0,0,0,0.9);
+    }
     .nav-link::after{
       content:''; position:absolute; left:0; bottom:-6px; height:2px; width:0%;
-      background:#FFB300; transition: width .25s ease;
+      background:rgba(0,0,0,0.7); transition: width .25s ease;
     }
     .nav-link:hover::after{ width:100%; }
+    
     /* Garis halus */
     .hairline { height:1px; background: repeating-linear-gradient(90deg, rgba(0,0,0,.08) 0 8px, transparent 8px 16px); }
 
@@ -82,38 +97,67 @@
       to{ width:360px; height:360px; opacity:0 }
     }
 
-    /* Kartu dekor lingkaran */
-    .dot-corner::before{
-      content:''; position:absolute; right:14px; top:14px; width:6px; height:6px; border-radius:999px; background:#FFE199;
-      box-shadow: 0 0 0 6px rgba(255,227,153,.35), 0 0 0 14px rgba(255,227,153,.12);
+    /* Kartu dengan aksen kuning */
+    .card-yellow {
+      border-left: 4px solid #FFDD3C;
+      transition: all 0.3s ease;
+    }
+    
+    .card-yellow:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px -8px rgba(255, 221, 60, 0.3);
     }
 
     /* Lock scroll saat modal terbuka */
     .modal-open { overflow: hidden; touch-action: none; }
 
-    /* Kontainer konten umum (bukan navbar) */
+    /* Kontainer konten umum */
     .container-x { margin-left:auto; margin-right:auto; max-width: 80rem; padding-left: clamp(1rem, 5vw, 3rem); padding-right: clamp(1rem, 5vw, 3rem); }
 
-    /* NAVBAR TANPA MOTIF: blur lembut + spasi kiri/kanan dipersempit */
-    .nav-wrap {
-      background-color: rgba(255, 255, 255, .7);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+    /* Efek gradasi kuning untuk hero */
+    .hero-gradient {
+      background: linear-gradient(135deg, #FFDD3C 0%, #FFE563 30%, #FFF9D9 100%);
     }
-    .nav-inner {
-      padding-left: clamp(16px, 3vw, 42px);  /* dipersempit, tidak mepet */
-      padding-right: clamp(16px, 3vw, 42px);
-      max-width: none; /* full width bar */
-      margin-left: 0;
-      margin-right: 0;
+    
+    /* Animasi untuk elemen reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+    
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Efek hover untuk metrik */
+    .metric-card {
+      transition: all 0.3s ease;
+    }
+    
+    .metric-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px -6px rgba(255, 221, 60, 0.3);
+    }
+    
+    /* Perpanjang background kuning ke bawah */
+    .extended-yellow {
+      padding-bottom: 10rem; /* Tambahkan padding bawah lebih banyak */
+    }
+    
+    @media (min-width: 768px) {
+      .extended-yellow {
+        padding-bottom: 12rem; /* Lebih panjang di desktop */
+      }
     }
   </style>
 </head>
 <body class="antialiased text-slate-800 bg-white selection:bg-brand-200/60">
 
-  <!-- NAV (tanpa motif, blur lembut, spasi kiri/kanan dipersempit) -->
+  <!-- NAV (dengan background kuning) -->
   <header id="topbar" class="fixed inset-x-0 top-0 z-40 transition-all nav-wrap">
-    <div class="nav-inner">
+    <div class="container-x">
       <div class="flex items-center justify-between py-3">
         <!-- KIRI -->
         <div class="flex items-center gap-3">
@@ -123,60 +167,59 @@
             class="h-10 w-10 md:h-12 md:w-12 object-contain transition-transform duration-500"
           />
           <div class="leading-tight">
-            <div class="font-extrabold">E-Tamu DPRD</div>
-            <div class="text-xs text-slate-600">Kota Gorontalo</div>
+            <div class="font-extrabold text-slate-900">E-Tamu DPRD</div>
+            <div class="text-xs text-slate-700">Kota Gorontalo</div>
           </div>
         </div>
 
         <!-- KANAN -->
         <nav class="hidden md:flex items-center gap-8 text-sm">
-          <a href="#beranda" class="nav-link hover:text-brand-700 font-medium">Beranda</a>
-          <a href="#layanan" class="nav-link hover:text-brand-700 font-medium">Layanan</a>
-          <a href="#kontak" class="nav-link hover:text-brand-700 font-medium">Kontak</a>
+          <a href="#beranda" class="nav-link font-medium">Beranda</a>
+          <a href="#layanan" class="nav-link font-medium">Layanan</a>
+          <a href="#kontak" class="nav-link font-medium">Kontak</a>
         </nav>
       </div>
     </div>
-    <div class="hairline"></div>
   </header>
 
-  <!-- HERO (kuning full pada desktop) -->
+  <!-- HERO (dengan gradasi kuning dan diperpanjang ke bawah) -->
   <section
     id="beranda"
-    class="relative overflow-hidden pt-40 pb-24 bg-brand-50 flex items-center"
+    class="relative overflow-hidden pt-40 hero-gradient flex items-center extended-yellow"
     style="min-height: calc(100vh - 64px);"
   >
     <!-- dekor kuning mengambang -->
-    <div class="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full border-4 border-brand-200/80 animate-floaty"></div>
-    <div class="pointer-events-none absolute -right-20 -bottom-24 h-80 w-80 rounded-full border-4 border-brand-100/70 animate-floaty" style="animation-delay:1.2s"></div>
-    <div class="pointer-events-none absolute left-1/2 -translate-x-1/2 top-24 h-24 w-24 rounded-full pattern-dots opacity-30"></div>
+    <div class="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full border-4 border-white/30 animate-floaty"></div>
+    <div class="pointer-events-none absolute -right-20 -bottom-24 h-80 w-80 rounded-full border-4 border-white/20 animate-floaty" style="animation-delay:1.2s"></div>
+    <div class="pointer-events-none absolute left-1/2 -translate-x-1/2 top-24 h-24 w-24 rounded-full pattern-dots opacity-40"></div>
 
     <!-- marquee aksen -->
     <div class="absolute inset-x-0 top-28 hidden md:block">
-      <div class="overflow-hidden opacity-40">
+      <div class="overflow-hidden opacity-60">
         <div class="whitespace-nowrap animate-marquee">
-          <span class="mx-8 text-brand-600 font-semibold">Pelayanan cepat</span>
-          <span class="mx-8 text-brand-600 font-semibold">Transparan</span>
-          <span class="mx-8 text-brand-600 font-semibold">Ramah</span>
-          <span class="mx-8 text-brand-600 font-semibold">Profesional</span>
-          <span class="mx-8 text-brand-600 font-semibold">Terpercaya</span>
+          <span class="mx-8 text-slate-800 font-semibold">Pelayanan cepat</span>
+          <span class="mx-8 text-slate-800 font-semibold">Transparan</span>
+          <span class="mx-8 text-slate-800 font-semibold">Ramah</span>
+          <span class="mx-8 text-slate-800 font-semibold">Profesional</span>
+          <span class="mx-8 text-slate-800 font-semibold">Terpercaya</span>
         </div>
       </div>
     </div>
 
     <div class="container-x text-center">
-      <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm font-medium ring-1 ring-brand-200 shadow-soft animate-scaleIn">
-        <span class="inline-block h-2 w-2 rounded-full bg-brand-500 animate-pulseSoft"></span> Portal Kunjungan Resmi
+      <span class="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 text-sm font-medium ring-1 ring-white/50 shadow-soft animate-scaleIn">
+        <span class="inline-block h-2 w-2 rounded-full bg-slate-800 animate-pulseSoft"></span> Portal Kunjungan Resmi
       </span>
 
       <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 animate-fadeUp mt-4">
         Selamat Datang di
-        <span class="block mt-2 text-4xl sm:text-6xl text-brand-700">E-Tamu DPRD</span>
+        <span class="block mt-2 text-4xl sm:text-6xl text-slate-900">E-Tamu DPRD</span>
       </h1>
-      <p class="mx-auto mt-6 max-w-3xl text-lg sm:text-xl text-slate-600 animate-fadeUp" style="animation-delay:.06s">
+      <p class="mx-auto mt-6 max-w-3xl text-lg sm:text-xl text-slate-700 animate-fadeUp" style="animation-delay:.06s">
         Sistem digital untuk pengajuan kunjungan ke DPRD Kota Gorontalo. Mudah, cepat, dan terpercaya.
       </p>
       <div class="mt-10 animate-fadeUp" style="animation-delay:.12s">
-        <button id="openModalBtnHero" class="ripple inline-flex items-center gap-2 rounded-2xl bg-brand-500 px-6 py-3 text-base font-semibold text-white shadow-glow hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0 transition-transform focus:outline-none focus:ring-2 focus:ring-brand-300">
+        <button id="openModalBtnHero" class="ripple inline-flex items-center gap-2 rounded-2xl bg-yellow-500 px-6 py-3 text-base font-semibold text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all focus:outline-none focus:ring-2 focus:ring-yellow-300">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
           </svg>
@@ -187,21 +230,21 @@
   </section>
 
   <!-- LAYANAN -->
-  <section id="layanan" class="py-16">
+  <section id="layanan" class="py-16 bg-slate-50">
     <div class="container-x">
-      <h2 class="text-center text-3xl font-bold reveal text-brand-700">Layanan Kami</h2>
+      <h2 class="text-center text-3xl font-bold text-slate-900 reveal">Layanan Kami</h2>
       <p class="mx-auto mt-3 max-w-2xl text-center text-slate-600 reveal">
         Kami hadir untuk memudahkan proses kunjungan Anda.
       </p>
 
       <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        <div class="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-lift transition-all hover:-translate-y-0.5 reveal dot-corner">
+        <div class="card-yellow rounded-xl bg-white p-6 shadow-sm reveal">
           <div class="flex items-start gap-3">
-            <div class="rounded-xl bg-brand-100 p-2 text-brand-700">
+            <div class="rounded-xl bg-brand-100 p-2 text-slate-900">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M2 4a2 2 0 012-2h8a2 2 0 012 2v2H2V4z"/><path d="M2 9h12v7a2 2 0 01-2 2H4a2 2 0 01-2-2V9z"/><path d="M17 7h-3v2h3v3h2V9a2 2 0 00-2-2z"/></svg>
             </div>
             <div>
-              <h3 class="font-semibold">Pengajuan Online</h3>
+              <h3 class="font-semibold text-slate-900">Pengajuan Online</h3>
               <p class="mt-2 text-sm text-slate-600">
                 Ajukan kunjungan secara online kapan saja dan dimana saja dengan mudah dan cepat.
               </p>
@@ -209,13 +252,13 @@
           </div>
         </div>
 
-        <div class="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-lift transition-all hover:-translate-y-0.5 reveal dot-corner">
+        <div class="card-yellow rounded-xl bg-white p-6 shadow-sm reveal">
           <div class="flex items-start gap-3">
-            <div class="rounded-xl bg-brand-100 p-2 text-brand-700">
+            <div class="rounded-xl bg-brand-100 p-2 text-slate-900">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v2h16V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1z"/><path d="M18 9H2v5a2 2 0 002 2h5v-3H7a1 1 0 110-2h4a1 1 0 011 1v4h4a2 2 0 002-2V9z"/></svg>
             </div>
             <div>
-              <h3 class="font-semibold">Tracking Real-time</h3>
+              <h3 class="font-semibold text-slate-900">Tracking Real-time</h3>
               <p class="mt-2 text-sm text-slate-600">
                 Pantau status pengajuan kunjungan Anda secara real-time melalui sistem kami.
               </p>
@@ -223,13 +266,13 @@
           </div>
         </div>
 
-        <div class="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-lift transition-all hover:-translate-y-0.5 reveal dot-corner">
+        <div class="card-yellow rounded-xl bg-white p-6 shadow-sm reveal">
           <div class="flex items-start gap-3">
-            <div class="rounded-xl bg-brand-100 p-2 text-brand-700">
+            <div class="rounded-xl bg-brand-100 p-2 text-slate-900">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6z"/><path d="M8 16a2 2 0 104 0H8z"/></svg>
             </div>
             <div>
-              <h3 class="font-semibold">Notifikasi Otomatis</h3>
+              <h3 class="font-semibold text-slate-900">Notifikasi Otomatis</h3>
               <p class="mt-2 text-sm text-slate-600">
                 Dapatkan notifikasi otomatis melalui email dan WhatsApp untuk setiap update status.
               </p>
@@ -239,22 +282,22 @@
       </div>
 
       <!-- Metrik -->
-      <div class="mt-12 rounded-3xl bg-brand-50 p-8 ring-1 ring-brand-100 reveal">
+      <div class="mt-12 rounded-2xl bg-white p-8 shadow-sm reveal">
         <div class="grid gap-8 text-center sm:grid-cols-2 lg:grid-cols-4">
-          <div class="p-3 rounded-2xl bg-white/70 ring-1 ring-brand-100">
-            <div class="text-3xl font-extrabold text-brand-700"><span class="counter" data-target="1250">0</span>+</div>
+          <div class="metric-card p-3 rounded-xl bg-brand-50">
+            <div class="text-3xl font-extrabold text-slate-900"><span class="counter" data-target="1250">0</span>+</div>
             <div class="mt-1 text-sm text-slate-600">Kunjungan Terlayani</div>
           </div>
-          <div class="p-3 rounded-2xl bg-white/70 ring-1 ring-brand-100">
-            <div class="text-3xl font-extrabold text-brand-700"><span class="counter" data-target="98">0</span>%</div>
+          <div class="metric-card p-3 rounded-xl bg-brand-50">
+            <div class="text-3xl font-extrabold text-slate-900"><span class="counter" data-target="98">0</span>%</div>
             <div class="mt-1 text-sm text-slate-600">Tingkat Kepuasan</div>
           </div>
-          <div class="p-3 rounded-2xl bg-white/70 ring-1 ring-brand-100">
-            <div class="text-3xl font-extrabold text-brand-700">24/7</div>
+          <div class="metric-card p-3 rounded-xl bg-brand-50">
+            <div class="text-3xl font-extrabold text-slate-900">24/7</div>
             <div class="mt-1 text-sm text-slate-600">Layanan Online</div>
           </div>
-          <div class="p-3 rounded-2xl bg-white/70 ring-1 ring-brand-100">
-            <div class="text-3xl font-extrabold text-brand-700">&lt; 2 Jam</div>
+          <div class="metric-card p-3 rounded-xl bg-brand-50">
+            <div class="text-3xl font-extrabold text-slate-900">&lt; 2 Jam</div>
             <div class="mt-1 text-sm text-slate-600">Waktu Respon</div>
           </div>
         </div>
@@ -265,35 +308,35 @@
   <!-- HUBUNGI KAMI -->
   <section id="kontak" class="bg-white py-16">
     <div class="container-x">
-      <h2 class="text-center text-3xl font-bold reveal text-brand-700">Hubungi Kami</h2>
+      <h2 class="text-center text-3xl font-bold text-slate-900 reveal">Hubungi Kami</h2>
       <p class="mx-auto mt-3 max-w-2xl text-center text-slate-600 reveal">
         Tim kami siap membantu kebutuhan kunjungan Anda.
       </p>
 
       <div class="mt-10 grid gap-6 sm:grid-cols-3">
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-lift hover:-translate-y-0.5 transition-all reveal">
+        <div class="card-yellow rounded-xl bg-white p-6 shadow-sm reveal">
           <div class="text-sm font-semibold text-slate-500">Telepon</div>
           <div class="mt-1 text-lg font-bold text-slate-900">(0435) 821234</div>
-          <a href="tel:+62435821234" class="mt-2 inline-block text-sm text-brand-700 hover:underline">Hubungi sekarang</a>
+          <a href="tel:+62435821234" class="mt-2 inline-block text-sm text-slate-700 hover:underline">Hubungi sekarang</a>
         </div>
 
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-lift hover:-translate-y-0.5 transition-all reveal">
+        <div class="card-yellow rounded-xl bg-white p-6 shadow-sm reveal">
           <div class="text-sm font-semibold text-slate-500">Email</div>
           <div class="mt-1 text-lg font-bold text-slate-900">info@dprdgorontalo.go.id</div>
-          <a href="mailto:info@dprdgorontalo.go.id" class="mt-2 inline-block text-sm text-brand-700 hover:underline">Kirim email</a>
+          <a href="mailto:info@dprdgorontalo.go.id" class="mt-2 inline-block text-sm text-slate-700 hover:underline">Kirim email</a>
         </div>
 
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-lift hover:-translate-y-0.5 transition-all reveal">
+        <div class="card-yellow rounded-xl bg-white p-6 shadow-sm reveal">
           <div class="text-sm font-semibold text-slate-500">Alamat</div>
           <div class="mt-1 text-lg font-bold text-slate-900">Jl. Nani Wartabone No.1, Gorontalo</div>
-          <a target="_blank" rel="noreferrer" href="https://maps.app.goo.gl/WCTqP2DNoK9yxGDs9" class="mt-2 inline-block text-sm text-brand-700 hover:underline">Lihat di Google Maps</a>
+          <a target="_blank" rel="noreferrer" href="https://maps.app.goo.gl/WCTqP2DNoK9yxGDs9" class="mt-2 inline-block text-sm text-slate-700 hover:underline">Lihat di Google Maps</a>
         </div>
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer class="bg-night-900 text-slate-300 py-14">
+  <footer class="bg-slate-900 text-slate-300 py-14">
     <div class="container-x grid gap-10 md:grid-cols-4">
       <div class="md:col-span-2">
         <div class="text-2xl font-extrabold text-white">E-Tamu DPRD<br><span class="text-brand-400">Kota Gorontalo</span></div>
@@ -325,7 +368,7 @@
     </div>
   </footer>
 
-  <!-- ========= MODAL MULTI-STEP (background blur saat dibuka) ========= -->
+  <!-- ========= MODAL MULTI-STEP ========= -->
   <div
     id="applyModal"
     class="invisible opacity-0 fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 transition-opacity duration-200"
@@ -337,12 +380,12 @@
     <!-- card -->
     <div
       id="modalCard"
-      class="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-black/5 transition-transform"
+      class="relative w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 transition-transform"
       role="dialog" aria-modal="true" aria-labelledby="modalTitle"
     >
       <div class="sticky top-0 z-10 flex items-start justify-between gap-4 border-b bg-white/90 px-6 py-5 backdrop-blur">
         <div>
-          <h3 id="modalTitle" class="text-2xl font-extrabold">Pengajuan Kunjungan Tamu</h3>
+          <h3 id="modalTitle" class="text-2xl font-extrabold text-slate-900">Pengajuan Kunjungan Tamu</h3>
           <p class="mt-1 text-slate-600 text-sm">Silakan lengkapi formulir di bawah ini dengan data yang benar</p>
         </div>
         <button id="closeModalBtn" class="rounded-full p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-300" aria-label="Tutup">
@@ -355,11 +398,11 @@
         <ol class="flex items-center gap-6">
           <li class="flex items-center gap-3">
             <span id="step1State" class="grid h-8 w-8 place-items-center rounded-full border-2 border-brand-500 bg-brand-500 text-white font-semibold">1</span>
-            <span class="text-sm font-medium">Data Keperluan</span>
+            <span class="text-sm font-medium text-slate-900">Data Keperluan</span>
           </li>
           <li class="flex items-center gap-3 opacity-80">
             <span id="step2State" class="grid h-8 w-8 place-items-center rounded-full border-2 border-slate-300 text-slate-500 font-semibold">2</span>
-            <span class="text-sm font-medium">Pihak Tujuan &amp; Dokumen</span>
+            <span class="text-sm font-medium text-slate-700">Pihak Tujuan &amp; Dokumen</span>
           </li>
         </ol>
       </div>
@@ -370,37 +413,37 @@
 
         <!-- STEP 1 -->
         <section id="step1" class="mt-6 space-y-6">
-          <div class="rounded-2xl border border-yellow-200 bg-brand-50 p-5">
+          <div class="rounded-xl border border-brand-200 bg-brand-50 p-5">
             <div class="mb-4 flex items-center gap-3">
-              <div class="rounded-full bg-brand-500/20 p-2 text-brand-700">
+              <div class="rounded-full bg-brand-500/20 p-2 text-slate-900">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               </div>
-              <h4 class="text-lg font-semibold">Informasi Pemohon</h4>
+              <h4 class="text-lg font-semibold text-slate-900">Informasi Pemohon</h4>
             </div>
 
             <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
               <div>
-                <label class="block text-sm font-medium">Nama Lengkap <span class="text-red-500">*</span></label>
-                <input required name="nama" type="text" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500" placeholder="Nama lengkap">
+                <label class="block text-sm font-medium text-slate-700">Nama Lengkap <span class="text-red-500">*</span></label>
+                <input required name="nama" type="text" class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500" placeholder="Nama lengkap">
                 @error('nama') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
               </div>
               <div>
-                <label class="block text-sm font-medium">Alamat Email <span class="text-red-500">*</span></label>
-                <input required name="email" type="email" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500" placeholder="nama@email.com">
+                <label class="block text-sm font-medium text-slate-700">Alamat Email <span class="text-red-500">*</span></label>
+                <input required name="email" type="email" class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500" placeholder="nama@email.com">
                 @error('email') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
               </div>
               <div>
-                <label class="block text-sm font-medium">Nomor Handphone (WhatsApp) <span class="text-red-500">*</span></label>
-                <div class="mt-1 flex rounded-xl border border-slate-300 bg-white shadow-sm focus-within:border-brand-500 focus-within:ring-1 focus-within:ring-brand-500">
-                  <span class="inline-flex items-center rounded-l-xl bg-slate-50 px-3 text-slate-600 select-none">+62</span>
-                  <input required name="no_hp" type="tel" class="w-full rounded-r-xl px-3 py-2 focus:outline-none" placeholder="81234567890">
+                <label class="block text-sm font-medium text-slate-700">Nomor Handphone (WhatsApp) <span class="text-red-500">*</span></label>
+                <div class="mt-1 flex rounded-lg border border-slate-300 bg-white shadow-sm focus-within:border-brand-500 focus-within:ring-1 focus-within:ring-brand-500">
+                  <span class="inline-flex items-center rounded-l-lg bg-slate-50 px-3 text-slate-600 select-none">+62</span>
+                  <input required name="no_hp" type="tel" class="w-full rounded-r-lg px-3 py-2 focus:outline-none" placeholder="81234567890">
                 </div>
                 <p class="mt-1 text-xs text-slate-500">Format: 812-3456-7890 (tanpa +62)</p>
                 @error('no_hp') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
               </div>
               <div>
-                <label class="block text-sm font-medium">Jumlah Peserta <span class="text-red-500">*</span></label>
-                <input required name="jumlah" type="number" min="1" max="50" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500" placeholder="cth: 10">
+                <label class="block text-sm font-medium text-slate-700">Jumlah Peserta <span class="text-red-500">*</span></label>
+                <input required name="jumlah" type="number" min="1" max="50" class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500" placeholder="cth: 10">
                 <p class="mt-1 text-xs text-slate-500">Maksimal 50 orang per kunjungan</p>
                 @error('jumlah') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
               </div>
@@ -408,134 +451,134 @@
           </div>
 
           <!-- Informasi Instansi/Organisasi -->
-          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+          <div class="rounded-xl border border-slate-200 bg-slate-50 p-5">
             <div class="mb-4 flex items-center gap-3">
               <div class="rounded-full bg-slate-500/10 p-2 text-slate-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/></svg>
               </div>
-              <h4 class="text-lg font-semibold">Informasi Instansi/Organisasi</h4>
+              <h4 class="text-lg font-semibold text-slate-900">Informasi Instansi/Organisasi</h4>
             </div>
 
-            <label class="block text-sm font-medium">Instansi/Daerah Asal <span class="text-red-500">*</span></label>
+            <label class="block text-sm font-medium text-slate-700">Instansi/Daerah Asal <span class="text-red-500">*</span></label>
             <div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <label class="group flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 has-checked:ring-brand-400 cursor-pointer">
-                <input type="radio" name="instansi_kategori" value="opd" class="peer" required><span class="text-sm">OPD</span>
+              <label class="group flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 has-checked:ring-brand-400 cursor-pointer">
+                <input type="radio" name="instansi_kategori" value="opd" class="peer" required><span class="text-sm text-slate-700">OPD</span>
               </label>
-              <label class="group flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 has-checked:ring-brand-400 cursor-pointer">
-                <input type="radio" name="instansi_kategori" value="lembaga" class="peer"><span class="text-sm">Lembaga</span>
+              <label class="group flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 has-checked:ring-brand-400 cursor-pointer">
+                <input type="radio" name="instansi_kategori" value="lembaga" class="peer"><span class="text-sm text-slate-700">Lembaga</span>
               </label>
-              <label class="group flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 has-checked:ring-brand-400 cursor-pointer">
-                <input type="radio" name="instansi_kategori" value="perseorangan" class="peer"><span class="text-sm">Perseorangan</span>
+              <label class="group flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 has-checked:ring-brand-400 cursor-pointer">
+                <input type="radio" name="instansi_kategori" value="perseorangan" class="peer"><span class="text-sm text-slate-700">Perseorangan</span>
               </label>
-              <label class="group flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 has-checked:ring-brand-400 cursor-pointer">
-                <input type="radio" name="instansi_kategori" value="ormas" class="peer"><span class="text-sm">Ormas</span>
+              <label class="group flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 has-checked:ring-brand-400 cursor-pointer">
+                <input type="radio" name="instansi_kategori" value="ormas" class="peer"><span class="text-sm text-slate-700">Ormas</span>
               </label>
             </div>
             @error('instansi_kategori') <p class="mt-2 text-xs text-red-600">{{ $message }}</p> @enderror
 
             <div class="mt-4 grid grid-cols-1 gap-5 md:grid-cols-2">
               <div>
-                <label class="block text-sm font-medium">Nama Instansi/Organisasi <span class="text-red-500">*</span></label>
-                <input required name="instansi_nama" type="text" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500" placeholder="cth: Dinas Pendidikan">
+                <label class="block text-sm font-medium text-slate-700">Nama Instansi/Organisasi <span class="text-red-500">*</span></label>
+                <input required name="instansi_nama" type="text" class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500" placeholder="cth: Dinas Pendidikan">
                 @error('instansi_nama') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
               </div>
 
               <div class="md:col-span-2">
-                <label class="block text-sm font-medium">Detail Keperluan <span class="text-red-500">*</span></label>
-                <textarea required name="keperluan" rows="3" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500" placeholder="Tuliskan keperluan kunjungan..."></textarea>
+                <label class="block text-sm font-medium text-slate-700">Detail Keperluan <span class="text-red-500">*</span></label>
+                <textarea required name="keperluan" rows="3" class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500" placeholder="Tuliskan keperluan kunjungan..."></textarea>
                 @error('keperluan') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
               </div>
             </div>
           </div>
 
           <!-- Jadwal -->
-          <div class="rounded-2xl border border-yellow-200 bg-brand-50 p-5">
+          <div class="rounded-xl border border-brand-200 bg-brand-50 p-5">
             <div class="mb-4 flex items-center gap-3">
-              <div class="rounded-full bg-brand-500/20 p-2 text-brand-700">
+              <div class="rounded-full bg-brand-500/20 p-2 text-slate-900">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
               </div>
-              <h4 class="text-lg font-semibold">Jadwal Kunjungan</h4>
+              <h4 class="text-lg font-semibold text-slate-900">Jadwal Kunjungan</h4>
             </div>
             <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
               <div>
-                <label class="block text-sm font-medium">Tanggal Kunjungan <span class="text-red-500">*</span></label>
-                <input required name="tanggal_kunjungan" type="date" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500">
+                <label class="block text-sm font-medium text-slate-700">Tanggal Kunjungan <span class="text-red-500">*</span></label>
+                <input required name="tanggal_kunjungan" type="date" class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500">
                 @error('tanggal_kunjungan') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
               </div>
               <div>
-                <label class="block text-sm font-medium">Waktu Kunjungan <span class="text-red-500">*</span></label>
-                <input required name="waktu_kunjungan" type="time" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500">
+                <label class="block text-sm font-medium text-slate-700">Waktu Kunjungan <span class="text-red-500">*</span></label>
+                <input required name="waktu_kunjungan" type="time" class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500">
                 @error('waktu_kunjungan') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
               </div>
             </div>
           </div>
 
           <div class="flex items-center justify-end gap-3">
-            <button type="button" id="toStep2" class="ripple rounded-xl bg-brand-500 px-5 py-2 font-semibold text-white shadow hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0 transition-transform focus:outline-none focus:ring-2 focus:ring-brand-300">Lanjut</button>
+            <button type="button" id="toStep2" class="ripple rounded-lg bg-slate-900 px-5 py-2 font-semibold text-white shadow hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all focus:outline-none focus:ring-2 focus:ring-slate-300">Lanjut</button>
           </div>
         </section>
 
         <!-- STEP 2 -->
         <section id="step2" class="mt-6 hidden space-y-6">
-          <div class="rounded-2xl border border-fuchsia-200 bg-fuchsia-50 p-5">
+          <div class="rounded-xl border border-fuchsia-200 bg-fuchsia-50 p-5">
             <div class="mb-4 flex items-center gap-3">
               <div class="rounded-full bg-fuchsia-500/20 p-2 text-fuchsia-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M13 7H7v6h6V7z" /><path fill-rule="evenodd" d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm10 12H5V5h10v10z" clip-rule="evenodd"/></svg>
               </div>
-              <h4 class="text-lg font-semibold">Pihak yang Dituju</h4>
+              <h4 class="text-lg font-semibold text-slate-900">Pihak yang Dituju</h4>
             </div>
 
-            <label class="block text-sm font-medium">Kategori Pihak yang Dituju <span class="text-red-500">*</span></label>
+            <label class="block text-sm font-medium text-slate-700">Kategori Pihak yang Dituju <span class="text-red-500">*</span></label>
             <div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-3">
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 cursor-pointer">
-                <input type="radio" name="kategori_pihak_top" value="pimpinan" class="peer" required><span class="text-sm">Pimpinan</span>
+              <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 cursor-pointer">
+                <input type="radio" name="kategori_pihak_top" value="pimpinan" class="peer" required><span class="text-sm text-slate-700">Pimpinan</span>
               </label>
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 cursor-pointer">
-                <input type="radio" name="kategori_pihak_top" value="akd" class="peer"><span class="text-sm">AKD</span>
+              <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 cursor-pointer">
+                <input type="radio" name="kategori_pihak_top" value="akd" class="peer"><span class="text-sm text-slate-700">AKD</span>
               </label>
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 cursor-pointer">
-                <input type="radio" name="kategori_pihak_top" value="sekretariat" class="peer"><span class="text-sm">Sekretariat</span>
+              <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200 cursor-pointer">
+                <input type="radio" name="kategori_pihak_top" value="sekretariat" class="peer"><span class="text-sm text-slate-700">Sekretariat</span>
               </label>
             </div>
 
             <!-- List dinamis -->
             <div id="pimpinanList" class="mt-4 hidden space-y-3">
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Ketua DPRD" required><span>Ketua DPRD</span></label>
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Wakil Ketua 1"><span>Wakil Ketua 1</span></label>
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Wakil Ketua 2"><span>Wakil Ketua 2</span></label>
+              <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Ketua DPRD" required><span class="text-slate-700">Ketua DPRD</span></label>
+              <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Wakil Ketua 1"><span class="text-slate-700">Wakil Ketua 1</span></label>
+              <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Wakil Ketua 2"><span class="text-slate-700">Wakil Ketua 2</span></label>
             </div>
 
             <div id="akdList" class="mt-4 hidden space-y-3">
               <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Badan Kehormatan"><span>Badan Kehormatan</span></label>
-                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Badan Anggaran"><span>Badan Anggaran</span></label>
-                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Badan Pembentukan Peraturan Daerah"><span>Badan Pembentukan Peraturan Daerah</span></label>
-                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Badan Musyawarah"><span>Badan Musyawarah</span></label>
-                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Komisi 1"><span>Komisi 1</span></label>
-                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Komisi 2"><span>Komisi 2</span></label>
-                <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Komisi 3"><span>Komisi 3</span></label>
+                <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Badan Kehormatan"><span class="text-slate-700">Badan Kehormatan</span></label>
+                <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Badan Anggaran"><span class="text-slate-700">Badan Anggaran</span></label>
+                <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Badan Pembentukan Peraturan Daerah"><span class="text-slate-700">Badan Pembentukan Peraturan Daerah</span></label>
+                <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Badan Musyawarah"><span class="text-slate-700">Badan Musyawarah</span></label>
+                <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Komisi 1"><span class="text-slate-700">Komisi 1</span></label>
+                <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Komisi 2"><span class="text-slate-700">Komisi 2</span></label>
+                <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Komisi 3"><span class="text-slate-700">Komisi 3</span></label>
               </div>
             </div>
 
             <div id="sekretariatList" class="mt-4 hidden space-y-3">
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Sekretaris"><span>Sekretaris</span></label>
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Bagian Umum dan Humas"><span>Bagian Umum dan Humas</span></label>
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Bagian Keuangan"><span>Bagian Keuangan</span></label>
-              <label class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Persidangan dan Perundang-undangan"><span>Persidangan dan Perundang-undangan</span></label>
+              <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Sekretaris"><span class="text-slate-700">Sekretaris</span></label>
+              <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Bagian Umum dan Humas"><span class="text-slate-700">Bagian Umum dan Humas</span></label>
+              <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Bagian Keuangan"><span class="text-slate-700">Bagian Keuangan</span></label>
+              <label class="flex items-center gap-3 rounded-lg border bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200"><input type="radio" name="kategori_pihak" value="Persidangan dan Perundang-undangan"><span class="text-slate-700">Persidangan dan Perundang-undangan</span></label>
             </div>
           </div>
 
-          <div class="rounded-2xl border border-yellow-200 bg-brand-50 p-5">
+          <div class="rounded-xl border border-brand-200 bg-brand-50 p-5">
             <div class="mb-4 flex items-center gap-3">
-              <div class="rounded-full bg-brand-500/20 p-2 text-brand-700">
+              <div class="rounded-full bg-brand-500/20 p-2 text-slate-900">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M8 7a4 4 0 118 0v4a2 2 0 11-4 0V7a2 2 0 10-4 0v6a4 4 0 108 0V9h2v4a6 6 0 11-12 0V7z"/></svg>
               </div>
-              <h4 class="text-lg font-semibold">Upload Dokumen</h4>
+              <h4 class="text-lg font-semibold text-slate-900">Upload Dokumen</h4>
             </div>
             <div class="grid grid-cols-1 gap-5">
               <div>
-                <label class="block text-sm font-medium">Surat Pemberitahuan/Surat Tugas (opsional)</label>
-                <input type="file" name="dokumen" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 file:mr-4 file:rounded-lg file:border-0 file:bg-brand-500 file:px-4 file:py-2 file:font-semibold file:text-white hover:file:bg-brand-600">
+                <label class="block text-sm font-medium text-slate-700">Surat Pemberitahuan/Surat Tugas (opsional)</label>
+                <input type="file" name="dokumen" class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 file:mr-4 file:rounded-lg file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:font-semibold file:text-white hover:file:bg-slate-800">
                 <p class="mt-1 text-xs text-slate-500">PDF/JPG/PNG maks 5MB.</p>
                 @error('dokumen') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
               </div>
@@ -543,10 +586,10 @@
           </div>
 
           <div class="flex items-center justify-between">
-            <button type="button" id="backTo1" class="rounded-xl px-4 py-2 text-slate-700 hover:bg-slate-100 transition-colors">Kembali</button>
+            <button type="button" id="backTo1" class="rounded-lg px-4 py-2 text-slate-700 hover:bg-slate-100 transition-colors">Kembali</button>
             <div class="flex items-center gap-3">
-              <button type="button" id="cancelBtn" class="rounded-xl px-4 py-2 text-slate-600 hover:bg-slate-100 transition-colors">Batal</button>
-              <button type="submit" class="ripple rounded-xl bg-brand-500 px-5 py-2 font-semibold text-white shadow hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0 transition-transform focus:outline-none focus:ring-2 focus:ring-brand-300">Kirim Pengajuan</button>
+              <button type="button" id="cancelBtn" class="rounded-lg px-4 py-2 text-slate-600 hover:bg-slate-100 transition-colors">Batal</button>
+              <button type="submit" class="ripple rounded-lg bg-slate-900 px-5 py-2 font-semibold text-white shadow hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all focus:outline-none focus:ring-2 focus:ring-slate-300">Kirim Pengajuan</button>
             </div>
           </div>
         </section>
@@ -672,12 +715,19 @@
     }, { threshold: 0.6 });
     counters.forEach(c => io.observe(c));
 
-    // Reveal on scroll
+    // Reveal on scroll - versi yang lebih ringan
     const reveals = document.querySelectorAll('.reveal');
-    const io2 = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('animate-fadeUp'); io2.unobserve(e.target); } });
-    }, { threshold: .25 });
-    reveals.forEach(el => io2.observe(el));
+    const revealOnScroll = () => {
+      reveals.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const isVisible = (rect.top <= window.innerHeight * 0.85);
+        if (isVisible) {
+          el.classList.add('active');
+        }
+      });
+    };
+    window.addEventListener('scroll', revealOnScroll, { passive: true });
+    revealOnScroll(); // Jalankan sekali saat halaman dimuat
 
     // Header shadow saat scroll
     const topbar = document.getElementById('topbar');
