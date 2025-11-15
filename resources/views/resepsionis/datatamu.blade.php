@@ -30,10 +30,10 @@
       <!-- FILTER BAR -->
       <form action="{{ route('resepsionis.datatamu') }}" method="GET" class="grid gap-3 grid-cols-1 sm:grid-cols-5">
         <div class="sm:col-span-2">
-          <label class="block text-sm font-medium text-slate-700">Pencarian</label>
-          <input name="q" value="{{ request('q') }}" type="text"
-                 class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500 text-sm sm:text-base"
-                 placeholder="Nama/Email/Instansi/No HP">
+            <label class="block text-sm font-medium text-slate-700">Pencarian</label>
+            <input name="q" value="{{ request('q') }}" type="text"
+                  class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 shadow-sm focus:border-brand-500 focus:ring-brand-500 text-sm sm:text-base"
+                  placeholder="Cari nama, email, instansi, no HP, keperluan...">
         </div>
 
         <div>

@@ -200,25 +200,22 @@ class ResepsionisController extends Controller
 
         // Pencarian
         if ($q !== '') {
-            $query->where(function ($w) use ($q) {
-                $w->where('keperluan', 'LIKE', "%{$q}%")
-                ->orWhere('instansi_nama', 'LIKE', "%{$q}%")
-                ->orWhere('dokumen', 'LIKE', "%{$q}%")
-                ->orWhere('waktu_kunjungan', 'LIKE', "%{$q}%")
-                ->orWhereDate('tanggal_kunjungan', $q)
-                ->orWhereHas('tamu', function ($t) use ($q) {
-                    $t->where('nama', 'LIKE', "%{$q}%")
-                        ->orWhere('email', 'LIKE', "%{$q}%")
-                        ->orWhere('no_hp', 'LIKE', "%{$q}%")
-                        ->orWhere('instansi_nama', 'LIKE', "%{$q}%")
-                        ->orWhere('instansi_kategori', 'LIKE', "%{$q}%");
-                })
-                ->orWhereHas('kategoriPihak', function ($kp) use ($q) {
-                    $kp->where('sub_kategori', 'LIKE', "%{$q}%")
-                        ->orWhere('subnama', 'LIKE', "%{$q}%")
-                        ->orWhere('kategori', 'LIKE', "%{$q}%");
-                });
+        $query->where(function ($w) use ($q) {
+            $w->where('keperluan', 'LIKE', "%{$q}%")
+            ->orWhere('dokumen', 'LIKE', "%{$q}%")
+            ->orWhere('waktu_kunjungan', 'LIKE', "%{$q}%")
+            ->orWhereDate('tanggal_kunjungan', $q)
+            ->orWhereHas('tamu', function ($t) use ($q) {
+                $t->where('nama', 'LIKE', "%{$q}%")
+                    ->orWhere('email', 'LIKE', "%{$q}%")
+                    ->orWhere('no_hp', 'LIKE', "%{$q}%")
+                    ->orWhere('instansi_nama', 'LIKE', "%{$q}%")
+                    ->orWhere('instansi_kategori', 'LIKE', "%{$q}%");
+            })
+            ->orWhereHas('kategoriPihak', function ($kp) use ($q) {
+                $kp->where('sub_kategori', 'LIKE', "%{$q}%");
             });
+        });
         }
 
         $tamu = $query->paginate(15)->withQueryString();
