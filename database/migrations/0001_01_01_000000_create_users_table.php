@@ -11,6 +11,7 @@ return new class extends Migration {
       $table->string('full_name', 150);
       $table->string('email', 150)->unique();
       $table->string('password');
+      $table->string('no_wa')->nullable();
       $table->enum('role', ['admin','host','resepsionis']);
       $table->boolean('is_active')->default(true);
       $table->timestamps();

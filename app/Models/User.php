@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class User extends Authenticatable
 {
     use HasFactory;
-    protected $fillable = ['full_name','email','password','role','is_active'];
+    protected $fillable = ['full_name','email','password','no_wa','role','is_active'];
     protected $hidden = ['password'];
     protected $casts = ['is_active' => 'boolean'];
 

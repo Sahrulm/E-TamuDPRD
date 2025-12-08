@@ -107,7 +107,7 @@ class DataTamuExport implements FromQuery, WithMapping, WithHeadings, ShouldAuto
                 ? ($row->waktu_kunjungan . ':00')
                 : ($row->waktu_kunjungan ?? '00:00:00'));
 
-        $srcTz   = $this->storesUtc ? 'UTC' : $this->tz;
+        $srcTz   = $this->storesUtc ? 'Asia/Makassar' : $this->tz;
         $dtLocal = Carbon::parse("$tanggal $waktu", $srcTz)->timezone($this->tz);
         $tglOut  = $dtLocal->translatedFormat('d M Y');
         $wktOut  = $dtLocal->format('H:i') . ' WITA';

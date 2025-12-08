@@ -21,7 +21,7 @@ return new class extends Migration {
       $table->time('waktu_kunjungan');
 
       // Dokumen
-      $table->string('dokumen');
+      $table->string('dokumen')->nullable();
 
       // status
       $table->enum('status_sekarang', ['menunggu','diterima','ditolak','selesai'])->default('menunggu');

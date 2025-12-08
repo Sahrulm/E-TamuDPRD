@@ -16,9 +16,24 @@ class AdminUserSeeder extends Seeder
             [
                 'full_name'     => 'resepsionis',
                 'role'     => 'resepsionis',                   // pastikan kolom 'role' ada
-                'password' => Hash::make('resepsionis123'),    // password di-hash
+                'password' => Hash::make('password123'),    // password di-hash
             ],
-            
+        );
+        User::updateOrCreate(
+            ['email' => 'admin@dprdgorontalo.com'],
+            [
+                'full_name'     => 'admin',
+                'role'     => 'admin',                   // pastikan kolom 'role' ada
+                'password' => Hash::make('password123'),    // password di-hash
+            ],
+        );
+        User::updateOrCreate(
+            ['email' => 'host@dprdgorontalo.com'],
+            [
+                'full_name'     => 'host',
+                'role'     => 'host',                   // pastikan kolom 'role' ada
+                'password' => Hash::make('password123'),    // password di-hash
+            ],
         );
     }
 }

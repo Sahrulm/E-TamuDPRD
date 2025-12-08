@@ -45,9 +45,9 @@ class HostController extends Controller
                 'waktu_kunjungan'   => $k->waktu_kunjungan,
                 'bertemu_dengan'    => optional($k->kategoriPihak)->sub_kategori
                                         ?? optional($k->kategoriPihak)->kategori
-                                        ?? ($k->bertemu_dengan ?? $k->sub_kategori ?? '—'),
+                                        ?? ($k->bertemu_dengan ?? '—'),
                 'dokumen'           => $k->dokumen ?? null,
-                'keperluan'         => $k->keperluan ?? $k->keperluan_tamu ?? null,
+                'keperluan'         => $k->keperluan ?? null,
             ];
         });
 
@@ -89,6 +89,201 @@ class HostController extends Controller
         ]);
     }
 
+    // METHOD UNTUK DATA PENGAJUAN (TAB "DATA")
+    public function datapengajuan(Request $request)
+    {
+        $search = $request->get('search', '');
+        
+        // Query dasar
+        $query = Kunjungan::query()
+            ->with([
+                'tamu:id,nama,email,no_hp,instansi_nama,instansi_kategori',
+                'kategoriPihak:id,kategori,sub_kategori',
+            ])
+            ->where('status_sekarang', 'menunggu')
+            ->orderByDesc('tanggal_kunjungan');
+        
+        // Filter pencarian SAMA PERSIS dengan controller lain
+        if ($search !== '') {
+            $query->where(function ($w) use ($search) {
+                $w->where('keperluan', 'LIKE', "%{$search}%")
+                    ->orWhere('dokumen', 'LIKE', "%{$search}%")
+                    ->orWhere('waktu_kunjungan', 'LIKE', "%{$search}%")
+                    ->orWhereDate('tanggal_kunjungan', $search)
+                    ->orWhereHas('tamu', function ($t) use ($search) {
+                        $t->where('nama', 'LIKE', "%{$search}%")
+                            ->orWhere('email', 'LIKE', "%{$search}%")
+                            ->orWhere('no_hp', 'LIKE', "%{$search}%")
+                            ->orWhere('instansi_nama', 'LIKE', "%{$search}%")
+                            ->orWhere('instansi_kategori', 'LIKE', "%{$search}%");
+                    })
+                    ->orWhereHas('kategoriPihak', function ($kp) use ($search) {
+                        $kp->where('sub_kategori', 'LIKE', "%{$search}%");
+                    });
+            });
+        }
+        
+        $pengajuan = $query->get();
+        
+        $mapped = $pengajuan->map(function (Kunjungan $k) {
+            return (object) [
+                'id'                => $k->id,
+                'status_sekarang'   => $k->status_sekarang ?? 'menunggu',
+                'nama'              => optional($k->tamu)->nama ?? '—',
+                'email'             => optional($k->tamu)->email ?? '—',
+                'no_hp'             => optional($k->tamu)->no_hp ?? '—',
+                'instansi_kategori' => optional($k->tamu)->instansi_kategori,
+                'instansi_nama'     => optional($k->tamu)->instansi_nama ?? '—',
+                'jumlah_peserta'    => $k->jumlah_peserta ?? $k->jumlah ?? null,
+                'tanggal_kunjungan' => $k->tanggal_kunjungan,
+                'waktu_kunjungan'   => $k->waktu_kunjungan,
+                'bertemu_dengan'    => optional($k->kategoriPihak)->sub_kategori
+                                        ?? optional($k->kategoriPihak)->kategori
+                                        ?? ($k->bertemu_dengan ?? '—'),
+                'dokumen'           => $k->dokumen ?? null,
+                'keperluan'         => $k->keperluan ?? null,
+            ];
+        });
+
+        $badge = [
+            'menunggu' => 'bg-amber-50 ring-amber-200 text-amber-700',
+            'diterima' => 'bg-emerald-50 ring-emerald-200 text-emerald-700',
+            'ditolak'  => 'bg-rose-50 ring-rose-200 text-rose-700',
+        ];
+        $label = [
+            'menunggu' => 'Menunggu',
+            'diterima' => 'Diterima',
+            'ditolak'  => 'Ditolak',
+        ];
+
+        return view('host.datapengajuan', [
+            'pengajuan'         => $mapped,
+            'badge'             => $badge,
+            'label'             => $label,
+            'currentSearch'     => $search,
+        ]);
+    }
+
+    // METHOD RIWAYAT KUNJUNGAN
+    public function riwayat(Request $request)
+    {
+        $status = $request->get('status', 'semua');
+        $search = $request->get('search', '');
+        
+        // Query dasar
+        $query = Kunjungan::query()
+            ->with([
+                'tamu:id,nama,email,no_hp,instansi_nama,instansi_kategori',
+                'kategoriPihak:id,kategori,sub_kategori',
+                'host:id,full_name',
+            ])
+            ->whereIn('status_sekarang', ['diterima', 'ditolak', 'selesai'])
+            ->orderByDesc('updated_at');
+        
+        // Filter status
+        if ($status !== 'semua') {
+            $query->where('status_sekarang', $status);
+        }
+        
+        // Filter pencarian SAMA PERSIS dengan controller lain
+        if ($search !== '') {
+            $query->where(function ($w) use ($search) {
+                $w->where('keperluan', 'LIKE', "%{$search}%")
+                    ->orWhere('dokumen', 'LIKE', "%{$search}%")
+                    ->orWhere('waktu_kunjungan', 'LIKE', "%{$search}%")
+                    ->orWhereDate('tanggal_kunjungan', $search)
+                    ->orWhereHas('tamu', function ($t) use ($search) {
+                        $t->where('nama', 'LIKE', "%{$search}%")
+                            ->orWhere('email', 'LIKE', "%{$search}%")
+                            ->orWhere('no_hp', 'LIKE', "%{$search}%")
+                            ->orWhere('instansi_nama', 'LIKE', "%{$search}%")
+                            ->orWhere('instansi_kategori', 'LIKE', "%{$search}%");
+                    })
+                    ->orWhereHas('kategoriPihak', function ($kp) use ($search) {
+                        $kp->where('sub_kategori', 'LIKE', "%{$search}%");
+                    });
+            });
+        }
+        
+        // Pagination
+        $riwayat = $query->paginate(10)->withQueryString();
+        
+        // Map data untuk view
+        $riwayat->getCollection()->transform(function (Kunjungan $k) {
+            $tamu = $k->tamu;
+            $kategori = $k->kategoriPihak;
+            $host = $k->host;
+            
+            // Format waktu kunjungan
+            $waktu = $k->waktu_kunjungan;
+            if ($waktu) {
+                $waktuFormatted = substr((string) $waktu, 0, 5);
+            } else {
+                $waktuFormatted = '—';
+            }
+            
+            // Format waktu diproses
+            $diprosesPada = $k->updated_at ? $k->updated_at->translatedFormat('d/m/Y H:i') : '—';
+            
+            // Format nama host
+            $hostNama = $host ? $host->full_name : ($k->approved_by_name ?? '—');
+            
+            return [
+                'id' => $k->id,
+                'nama' => $tamu ? $tamu->nama : '—',
+                'email' => $tamu ? $tamu->email : '—',
+                'no_hp' => $tamu ? $tamu->no_hp : '—',
+                'instansi_nama' => $tamu ? $tamu->instansi_nama : '—',
+                'instansi_kategori' => $tamu ? $tamu->instansi_kategori : null,
+                'jumlah_peserta' => $k->jumlah_peserta ?? $k->jumlah ?? null,
+                'tanggal_kunjungan' => $k->tanggal_kunjungan,
+                'waktu_kunjungan' => $waktuFormatted,
+                'tanggal_kunjungan_formatted' => $k->tanggal_kunjungan 
+                    ? Carbon::parse($k->tanggal_kunjungan)->translatedFormat('d/m/Y')
+                    : '—',
+                'bertemu_dengan' => $kategori 
+                    ? ($kategori->sub_kategori ?? $kategori->kategori)
+                    : ($k->bertemu_dengan ?? '—'),
+                'keperluan' => $k->keperluan ?? '—',
+                'status_sekarang' => $k->status_sekarang,
+                'alasan' => $k->alasan_penolakan ?? ($k->catatan ?? ''),
+                'diproses_pada' => $diprosesPada,
+                'host_nama' => $hostNama,
+                'created_at' => $k->created_at,
+                'updated_at' => $k->updated_at,
+            ];
+        });
+        
+        // Statistik untuk filter
+        $statistik = [
+            'semua' => Kunjungan::whereIn('status_sekarang', ['diterima', 'ditolak', 'selesai'])->count(),
+            'diterima' => Kunjungan::where('status_sekarang', 'diterima')->count(),
+            'ditolak' => Kunjungan::where('status_sekarang', 'ditolak')->count(),
+            'selesai' => Kunjungan::where('status_sekarang', 'selesai')->count(),
+        ];
+        
+        $badge = [
+            'diterima' => 'bg-emerald-50 ring-emerald-200 text-emerald-700',
+            'ditolak'  => 'bg-rose-50 ring-rose-200 text-rose-700',
+            'selesai'  => 'bg-blue-50 ring-blue-200 text-blue-700',
+        ];
+        
+        $label = [
+            'diterima' => 'Disetujui',
+            'ditolak'  => 'Ditolak',
+            'selesai'  => 'Selesai',
+        ];
+        
+        return view('host.riwayat', [
+            'riwayat' => $riwayat,
+            'statistik' => $statistik,
+            'badge' => $badge,
+            'label' => $label,
+            'currentStatus' => $status,
+            'currentSearch' => $search,
+        ]);
+    }
+
     public function accept(Request $r, Kunjungan $kunjungan)
     {
         $ok = $kunjungan->approve(Auth::user());
@@ -117,7 +312,7 @@ class HostController extends Controller
 
         $bertemu = $kat->sub_kategori
                     ?? $kat->kategori
-                    ?? ($kunjungan->bertemu_dengan ?? $kunjungan->sub_kategori ?? '—');
+                    ?? ($kunjungan->bertemu_dengan ?? '—');
 
         $pesan = "Halo {$nama},\n\n"
             . "Pengajuan kunjungan Anda ke *DPRD Kota Gorontalo* telah *DITERIMA*.\n\n"
@@ -154,7 +349,7 @@ class HostController extends Controller
 
         $pesan = "Halo {$nama},\n\n"
             . "Mohon maaf, pengajuan kunjungan Anda ke *DPRD Kota Gorontalo* telah *DITOLAK*.\n\n"
-            . "Alasan: {$alasan}\n"
+            . "Alasan: {$alasan}\n\n"
             . "Silakan mengajukan kembali dengan jadwal lain. Terima kasih.";
 
         if ($nomor) {

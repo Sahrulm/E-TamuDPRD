@@ -26,8 +26,8 @@ class ResepsionisController extends Controller
         $nowLocal = Carbon::now($tz);
 
         // rentang hari ini dalam WITA
-        $startLocal = $nowLocal->copy()->startOfDay(); // 00:00 WITA
-        $endLocal   = $nowLocal->copy()->endOfDay();   // 23:59:59 WITA
+        $startLocal = $nowLocal->copy()->startOfDay();
+        $endLocal   = $nowLocal->copy()->endOfDay();
 
         if ($this->storesUtc) {
             // Jika DB simpan UTC → konversi rentang ke UTC
@@ -67,7 +67,7 @@ class ResepsionisController extends Controller
             ->orderBy('waktu_kunjungan')     // urut jam
             ->get();
         // dd($kunjungan_hari_ini);
-        return view('resepsionis.index', array_merge($data, compact('kunjungan_hari_ini')));
+        return view('resepsionis.dashboard', array_merge($data, compact('kunjungan_hari_ini')));
     }
 
     public function stats(Request $request)
@@ -139,11 +139,32 @@ class ResepsionisController extends Controller
 
             // 3) Upload file ke storage publik (opsional)
             $dokumenPath = null;
+
             if ($request->hasFile('dokumen')) {
-                // simpan ke storage/app/public/kunjungan/*
-                $stored = $request->file('dokumen')
-                    ->store('kunjungan', 'public'); // returns "kunjungan/xxxxx.ext"
-                $dokumenPath = 'storage/'.$stored;  // dapat diakses setelah php artisan storage:link
+                $file = $request->file('dokumen');
+                
+                if ($file->isValid()) {
+                    try {
+                        // Manual file handling
+                        $filename = 'kunjungan_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                        $directory = storage_path('app/public/kunjungan');
+                        
+                        // Buat directory jika belum ada
+                        if (!file_exists($directory)) {
+                            mkdir($directory, 0755, true);
+                        }
+                        
+                        $fullPath = $directory . '/' . $filename;
+                        
+                        // Pindahkan file manual
+                        if ($file->move($directory, $filename)) {
+                            $dokumenPath = 'storage/kunjungan/' . $filename;
+                            \Log::info('File moved to: ' . $dokumenPath);
+                        }
+                    } catch (\Exception $e) {
+                        \Log::error('File upload error: ' . $e->getMessage());
+                    }
+                }
             }
 
             // 4) Buat Kunjungan
@@ -154,7 +175,7 @@ class ResepsionisController extends Controller
                 'keperluan'         => $validated['keperluan'],
                 'tanggal_kunjungan' => $validated['tanggal_kunjungan'],
                 'waktu_kunjungan'   => $validated['waktu_kunjungan'],
-                'dokumen'           => $dokumenPath,
+                'dokumen'           => $dokumenPath ?? null,
                 'status_sekarang'   => 'menunggu',
                 // 'host_id'        => null,
             ]);
@@ -186,7 +207,7 @@ class ResepsionisController extends Controller
             ->leftJoin('kategori_pihak', 'kategori_pihak.id', '=', 'kunjungan.kategori_pihak_id')
             ->orderByDesc('tanggal_kunjungan')
             ->orderByDesc('waktu_kunjungan')
-            ->select('kunjungan.*', 'kategori_pihak.sub_kategori'); // Tambahkan kolom yang diperlukan
+            ->select('kunjungan.*', 'kategori_pihak.sub_kategori');
 
         // Filter status
         if ($status !== '') {

@@ -66,10 +66,15 @@ Route::middleware(['auth', 'role:resepsionis'])->group(function () {
 */
 Route::middleware(['auth', 'role:host'])->group(function () {
     Route::get('/host', [HostController::class, 'index'])->name('host.index');
-
+    
+    Route::get('/host/datapengajuan', [HostController::class, 'datapengajuan'])->name('host.datapengajuan');
+    
+    // Tambahkan route untuk riwayat
+    Route::get('/host/riwayat', [HostController::class, 'riwayat'])->name('host.riwayat');
+    
     Route::post('/host/kunjungan/{kunjungan}/terima', [HostController::class, 'accept'])
         ->name('host.kunjungan.terima');
-
+    
     Route::post('/host/kunjungan/{kunjungan}/tolak', [HostController::class, 'reject'])
         ->name('host.kunjungan.tolak');
 });
@@ -80,20 +85,26 @@ Route::middleware(['auth', 'role:host'])->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Route untuk views
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/admin/tamu', [AdminController::class, 'tamu'])->name('admin.tamu');
 
     // API sederhana untuk Blade Alpine
     Route::prefix('admin/api')->group(function () {
+        // Dashboard data
+        Route::get('/dashboard-data', [AdminController::class, 'dashboardData']);
+        
         // Users
         Route::get('/users', [AdminController::class, 'usersIndex']);
         Route::post('/users', [AdminController::class, 'usersStore']);
         Route::put('/users/{user}', [AdminController::class, 'usersUpdate']);
         Route::delete('/users/{user}', [AdminController::class, 'usersDestroy']);
 
-        // Kunjungan (flatten untuk UI "Kelola Tamu")
+        // Kunjungan
         Route::get('/kunjungan', [AdminController::class, 'kunjunganIndex']);
         Route::post('/kunjungan', [AdminController::class, 'kunjunganStore']);
-        Route::post('/kunjungan/{kunjungan}', [AdminController::class, 'kunjunganUpdate']); // jika pakai method spoofing
+        Route::post('/kunjungan/{kunjungan}', [AdminController::class, 'kunjunganUpdate']); // method spoofing
         Route::put('/kunjungan/{kunjungan}', [AdminController::class, 'kunjunganUpdate']);
         Route::delete('/kunjungan/{kunjungan}', [AdminController::class, 'kunjunganDestroy']);
     });
