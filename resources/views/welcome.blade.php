@@ -598,7 +598,6 @@
           <a href="#beranda" class="nav-link font-medium">Beranda</a>
           <a href="#layanan" class="nav-link font-medium">Layanan</a>
           <a href="#kontak" class="nav-link font-medium">Kontak</a>
-          <a href="#kontributor" class="nav-link font-medium" id="openContributorBtn">Kontributor</a>
         </nav>
 
         <!-- Mobile Menu Button -->
@@ -624,7 +623,6 @@
       <a href="#beranda" class="nav-link font-medium text-lg py-2 border-b border-slate-100">Beranda</a>
       <a href="#layanan" class="nav-link font-medium text-lg py-2 border-b border-slate-100">Layanan</a>
       <a href="#kontak" class="nav-link font-medium text-lg py-2 border-b border-slate-100">Kontak</a>
-      <a href="#kontributor" class="nav-link font-medium text-lg py-2 border-b border-slate-100" id="openContributorBtnMobile">Kontributor</a>
       <button id="openModalBtnMobile" class="ripple mt-4 w-full rounded-xl bg-yellow-500 px-5 py-3 font-semibold text-white shadow hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-slate-300">
         Ajukan Kunjungan
       </button>
@@ -647,7 +645,7 @@
       <div class="overflow-hidden opacity-60">
         <div class="whitespace-nowrap animate-marquee">
           <span class="mx-8 text-slate-800 font-semibold">Pelayanan cepat</span>
-          <span class="mx-8 text-slate-800 font-semibold">Transparan</span>
+          <span class="mx-8 text-slate-800 font-semibold">Sistem tamu</span>
           <span class="mx-8 text-slate-800 font-semibold">Ramah</span>
           <span class="mx-8 text-slate-800 font-semibold">Profesional</span>
           <span class="mx-8 text-slate-800 font-semibold">Terpercaya</span>

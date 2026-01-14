@@ -240,15 +240,6 @@
                 <div class="px-4 pb-2 text-[11px] text-brand-100 border-b border-brand-400">
                   Masuk sebagai <span class="font-semibold text-white">Resepsionis</span>
                 </div>
-                <a href="{{ route('resepsionis.index') }}"
-                   class="flex items-center gap-2 px-3 py-2 text-sm text-white hover:bg-brand-600 transition-colors"
-                   role="menuitem">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brand-100" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M10.707 1.293a1 1 0 00-1.414 0l-8 8a1 1 0 001.414 1.414L3 10.414V17a1 1 0 001 1h3a1 1 0 001-1v-2h4v2a1 1 0 001 1h3a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-8-8z"/>
-                  </svg>
-                  Dashboard
-                </a>
-                <div class="my-1 h-px bg-brand-400"></div>
                 <a
                   href="{{ route('logout') }}"
                   class="flex items-center gap-2 px-3 py-2 text-sm text-brand-100 hover:bg-brand-600 transition-colors"

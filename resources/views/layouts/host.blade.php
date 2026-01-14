@@ -376,7 +376,7 @@
   @endif
 
   <footer class="mt-8 pb-6 text-center text-sm text-slate-600 font-medium">
-    E-Tamu DPRD Kota Gorontalo · Panel Host
+    E-Tamu DPRD Kota Gorontalo · {{ date('Y') }} &copy; All Rights Reserved.
   </footer>
 
   <script>
